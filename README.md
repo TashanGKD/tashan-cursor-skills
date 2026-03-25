@@ -76,28 +76,49 @@
 
 ---
 
-## 快速开始
+## 安装方式
 
-### 1. 克隆仓库
+### 方式一：`ai-agent-skills` CLI（推荐，一行命令）
+
+```bash
+# 安装到当前项目
+npx ai-agent-skills install TashanGKD/tashan-cursor-skills
+
+# 或安装到全局（所有项目可用）
+npx ai-agent-skills install --global TashanGKD/tashan-cursor-skills
+```
+
+重启 Cursor，Skills 自动生效。
+
+### 方式二：Cursor 内置 GitHub 导入
+
+1. 打开 Cursor 设置（`Cmd+Shift+J`）
+2. 进入 **Rules** → **Add Rule** → **Remote Rule (Github)**
+3. 输入仓库地址：`https://github.com/TashanGKD/tashan-cursor-skills`
+4. 重启 Cursor
+
+### 方式三：手动复制（完全控制）
 
 ```bash
 git clone https://github.com/TashanGKD/tashan-cursor-skills.git
-```
 
-### 2. 复制到你的项目
-
-```bash
-# 全量使用（推荐）
+# 全量安装
 cp -r tashan-cursor-skills/skills/* your-project/.cursor/skills/
 cp -r tashan-cursor-skills/rules/* your-project/.cursor/rules/
 cp -r tashan-cursor-skills/agents/* your-project/.cursor/agents/
 ```
 
-### 3. 重启 Cursor
+---
+
+## 快速开始
+
+### 1. 安装（选择上面任意一种方式）
+
+### 2. 重启 Cursor
 
 关闭并重新打开 Cursor，所有 Skill 和 Rule 自动生效。
 
-### 4. 创建项目配置文件（推荐）
+### 3. 创建项目配置文件（推荐）
 
 在你的项目根目录创建 `.cursor/project-config.md`，帮助 AI 定位文档路径：
 

@@ -76,24 +76,43 @@ Without this system, AI relies purely on training knowledge — no standards, no
 
 ---
 
-## Quick Start
+## Installation
 
-### 1. Clone the repository
+### Option 1: `ai-agent-skills` CLI (recommended, one command)
+
+```bash
+# Install to current project
+npx ai-agent-skills install TashanGKD/tashan-cursor-skills
+
+# Or install globally (available in all projects)
+npx ai-agent-skills install --global TashanGKD/tashan-cursor-skills
+```
+
+Restart Cursor — Skills activate automatically.
+
+### Option 2: Cursor built-in GitHub import
+
+1. Open Cursor Settings (`Cmd+Shift+J`)
+2. Go to **Rules** → **Add Rule** → **Remote Rule (Github)**
+3. Enter: `https://github.com/TashanGKD/tashan-cursor-skills`
+4. Restart Cursor
+
+### Option 3: Manual copy (full control)
 
 ```bash
 git clone https://github.com/TashanGKD/tashan-cursor-skills.git
-```
-
-### 2. Copy to your project
-
-```bash
-# Full installation (recommended)
 cp -r tashan-cursor-skills/skills/* your-project/.cursor/skills/
 cp -r tashan-cursor-skills/rules/* your-project/.cursor/rules/
 cp -r tashan-cursor-skills/agents/* your-project/.cursor/agents/
 ```
 
-### 3. Restart Cursor
+---
+
+## Quick Start
+
+### 1. Install (use any method above)
+
+### 2. Restart Cursor
 
 Close and reopen Cursor. All Skills and Rules take effect automatically.
 
