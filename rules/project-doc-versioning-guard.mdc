@@ -1,0 +1,104 @@
+---
+description: 项目文档版本留痕规则。任何角色修改「项目群/」「_内部总控/开发规范/」「测试工程师/」等目录中已存在的 .md 文档前，必须备份到 history/ 并追加变更记录。排除：追加型日志（任务日志.md / PENDING-EXPERIENCES.md / 系统日志.md / CO-BUILD-LOG.md）、认知结构文档（已由 cognitive-structure-write-guard 覆盖）、Skill/Rule/Agent 文件（已由 skill-rule-修改规范 覆盖）、代码文件、新建文件。
+alwaysApply: true
+---
+
+# 项目文档版本留痕规则（project-doc-versioning-guard）
+
+> **设计对齐**：代码用 git 管理版本 / Skill·Rule·Agent 用 skill-rule-修改规范 备份 / 认知结构文档用 cognitive-structure-write-guard 备份。
+> 本规则补全最后一层：**项目级产物文档**。
+
+---
+
+## 覆盖范围（必须执行留痕）
+
+✅ **需要备份的文档**（以下目录中已存在的 .md 文件）：
+- `项目群/[任意项目]/` 下的所有文档（产品定义.md / 技术架构.md / 开发计划.md / DEPLOY_ARCH.md / 测试规范.md 等）
+- `_内部总控/开发规范/` 下的所有规范文档
+- `测试工程师/` 目录下的规范性文档
+- 任何其他项目级「产物型」.md（报告、审核文档、API 合约等）
+
+❌ **排除（不需备份）**：
+- **追加型日志**：`任务日志.md` / `PENDING-EXPERIENCES.md` / `系统日志.md` / `CO-BUILD-LOG.md`（这些文件本身就是历史记录，只增不减）
+- **认知结构**：`_内部总控/认知结构/L1_*` / `L1.5_*`（由 cognitive-structure-write-guard.mdc 覆盖）
+- **Skill/Rule/Agent 文件**：`.cursor/skills/` / `.cursor/rules/` / `.cursor/agents/`（由 skill-rule-修改规范 覆盖）
+- **代码文件**：`.ts` / `.py` / `.tsx` / `.js` 等（由 git 管理）
+- **新建文件**：目标路径不存在时（无旧版本可备份）
+
+---
+
+## 强制执行步骤（4步，顺序不可跳过）
+
+```
+Step 1【读取版本信息】
+        Read: [目标文件] 前10行
+        → 找版本号（如 v1.1 / v0.5）
+        → 若无版本号 → 视为 v1.0，备份为 v1.0，新版改为 v1.1
+
+Step 2【备份到 history/】
+        目标路径：[文件所在目录]/history/[文件名无.md]_v[当前版本]_[YYYYMMDD].md
+        → 若 history/ 目录不存在 → Shell: mkdir -p [目录]/history/
+        → cp [文件] [备份路径]
+        → ⚠️ 必须确认备份文件存在后才继续，不可跳过
+
+Step 3【执行修改】
+        → 更新文件头部版本号（小修改 +0.1；重大重构 +1.0）
+        → 执行原计划的修改内容（StrReplace 或 Write）
+
+Step 4【追加变更记录】
+        在文档末尾追加（若已有「## 变更记录」章节则在其内追加，否则新建）：
+
+        ---
+        ## 变更记录（续）
+
+        ### [新版本号] — [YYYY-MM-DD] — [本次修改一句话摘要]
+
+        **修改内容**：[具体改了什么，为什么改]
+        **备份路径**：`history/[文件名]_v[旧版本]_[日期].md`
+```
+
+---
+
+## 违反后果
+
+直接 Write/StrReplace 而未备份 → 旧版本**永久丢失**，无法恢复。
+
+---
+
+## 与现有留痕机制的关系
+
+| 层级 | 机制 | 覆盖范围 |
+|---|---|---|
+| 代码层 | Git | .ts/.py/.tsx 等代码文件 |
+| 认知结构层 | cognitive-structure-write-guard.mdc | L1/L1.5 认知文档 |
+| Skill/Rule/Agent 层 | skill-rule-修改规范 | .cursor/ 目录组件 |
+| **项目文档层** | **本规则（project-doc-versioning-guard）** | 项目群/ 和规范文档 |
+
+---
+
+## 变更记录
+
+### v1.0 — 2026-03-23 — 初始创建
+
+**根因**：系统性审计发现项目文档层（产品定义.md / 技术架构.md / 开发计划.md 等）是留痕机制的唯一空白层。L1 认知文档和 Skill 文件均有强制备份机制，但项目文档毫无保护——一次错误的 Write 调用会导致历史版本永久丢失。
+
+**设计决策**：
+- alwaysApply: false（条件触发）：仅在修改项目文档时激活，不增加全局 context 负担
+- 覆盖范围：项目群/ + 开发规范/（新建文件、代码文件、追加型日志排除）
+- 四步强制流程：读取版本 → 备份 → 修改 → 追加变更记录
+
+**验证状态**：🔵 待验证（下次任意角色修改 产品定义.md / 技术架构.md 时验证）
+
+---
+
+### v1.0 → v1.1 — 2026-03-23 — alwaysApply: false → true
+
+**根因**：alwaysApply: false 依赖 AI 自觉加载，与系统内多次记录的「声称完成≠实际执行」问题同属执行可靠性问题。用户明确要求改为 alwaysApply: true 以技术层保障强制执行。
+
+**修改内容**：frontmatter `alwaysApply: false` → `alwaysApply: true`
+
+**已知代价**：每次对话注入此 Rule 内容（约 70 行），轻微增加 context。Rule 内容精炼，影响可接受。
+
+**备份路径**：`history/project-doc-versioning-guard_v1.0_20260323_before_alwaysapply.mdc`
+
+**验证状态**：🔵 待验证（下次修改项目文档时，AI 应无需触发即自动执行4步备份）

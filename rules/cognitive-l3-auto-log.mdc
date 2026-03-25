@@ -1,0 +1,103 @@
+---
+description: 认知系统自动日志规则：每次完成认知结构相关操作后，自动追加系统日志条目。当任何 cognitive-* Skill 执行完毕，或对认知结构文档执行了重要操作时自动激活。
+globs:
+alwaysApply: true
+---
+
+# 自动日志规则（L3 Auto Log）
+
+## 核心原则
+
+**任何对认知结构的重要操作，都必须在系统日志中留下记录。**
+
+这不是"可以做"，而是"必须做"——日志是认知结构可追溯性的基础，是未来「每日汇报」和「复盘」的数据来源。
+
+---
+
+## 触发条件
+
+以下情况发生后，**自动追加系统日志**（无需用户提示）：
+1. 任何 `cognitive-*` Skill 执行完毕
+2. 向 L1 或 L1.5 文档写入内容
+3. 新建 L2 碎片或更新碎片整合索引
+4. 矛盾被检测到或消解
+5. L1.5 新原则被确认
+
+---
+
+## 日志追加格式
+
+**文件路径**：`_内部总控/认知结构/L3_原始记录/系统日志.md`
+**写入模式**：追加（append），不覆盖已有内容
+
+**格式**：
+```
+[LOG-YYYYMMDD-NN] {操作类型} | {内容摘要} | {涉及文档/碎片}
+```
+
+**NN** = 当日第N条日志（从01开始，依次递增，读取文件中当日最后一条确认编号）
+
+---
+
+## 各类操作的日志模板
+
+```
+碎片捕捉：
+[LOG-20260317-01] cognitive-capture-fragment | 记录碎片F-013「...标题...」 | L2产品思考碎片.md
+
+碎片整合：
+[LOG-20260317-02] cognitive-integrate-fragments | F-012整合进[A]第X章第Y节 | AI时代产品问题全景框架.md
+
+文档更新：
+[LOG-20260317-03] cognitive-update-knowledge | 更新[文档名]第X章：[一句话摘要] | [文档名].md
+
+矛盾检测：
+[LOG-20260317-04] cognitive-detect-contradiction | 检测[文档A]vs[文档B]，发现N个矛盾，已消解M个 | 一致性检查记录.md
+
+原则提炼：
+[LOG-20260317-05] cognitive-extract-principle | 确认新原则P3「...表述...」 | 底层原则库.md
+
+自我反思：
+[LOG-20260317-06] cognitive-self-reflect | 记录反思R-XXX「...标题...」 | 自我反思记录.md
+
+大脑地图复盘：
+[LOG-20260317-07] cognitive-review-brain-map | 生成认知快照 | 无文档变更
+
+每日汇报：
+[LOG-20260317-08] cognitive-daily-briefing | 生成每日汇报 | 无文档变更
+```
+
+---
+
+## 日志追加的时机
+
+- **碎片类Skill**：写入碎片文件后立即追加
+- **文档修改类Skill**：所有级联操作（变更记录+L0更新）完成后，最后追加
+- **只读类Skill**（review-brain-map, daily-briefing）：Skill 执行结束时追加
+
+---
+
+## 不需要写日志的情况
+
+- 用户只是查看文件内容，没有写入操作
+- AI 在读取文件做内部分析（没有输出结果给用户）
+- 对非认知结构目录的操作
+
+---
+
+## 变更记录
+
+### 2026-03-21 — alwaysApply: false → true（GAP-E4A 修复）
+
+**根因**：GAP-E4 分析（认知体系改进规划 v1.2，TASK-20260321-13）确认：alwaysApply:false 导致日志追踪依赖 AI 自我报告，系统日志完整性无法保证，影响 daily-briefing、一致性检查等所有依赖日志的功能。
+
+**修改内容**：
+- 修改：frontmatter `alwaysApply: false` → `alwaysApply: true`
+
+**验证结果**：
+- 正向验证：触发 cognitive-capture-fragment 后，系统日志应有对应条目（待真实场景验证）
+- 负向验证：普通开发任务中，Rule 虽被注入但触发条件（cognitive-* Skill 完成后）不误触发
+
+**已知风险**：alwaysApply:true 会在所有对话中注入此 Rule 的描述文字，轻微增加 context 大小。Rule 内容简洁（约 60 行），影响可忽略。
+
+**备份路径**：`.cursor/rules/history/cognitive-l3-auto-log_20260321.mdc`

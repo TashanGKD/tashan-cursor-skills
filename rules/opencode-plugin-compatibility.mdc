@@ -1,0 +1,61 @@
+---
+description: opencode/openclaw 插件兼容性前置检查。任何涉及 opencode、openclaw、openwork-server、tashan-workbench 集成第三方框架/插件时自动激活。核心约束：两套生态插件 SDK 完全不兼容，集成前必须确认生态归属，不得直接混用。
+alwaysApply: false
+---
+
+# opencode/openclaw 插件兼容性前置检查（opencode-plugin-compatibility）
+
+> 触发条件：任何涉及 opencode、openclaw、openwork-server、tashan-workbench 集成第三方框架/插件的任务
+
+---
+
+## 核心问题
+
+opencode（different-ai 生态）与 openclaw（开源社区生态）的插件体系**完全不兼容**：
+
+| 维度 | opencode / openwork-server | openclaw |
+|---|---|---|
+| Plugin SDK | opencode 原生（无独立SDK）| `openclaw/plugin-sdk` |
+| 工具注册方式 | MCP（Model Context Protocol）| `definePluginEntry()` |
+| 内存扩展 | opencode.json `plugin` 字段 | openclaw extension 目录 |
+| 子智能体 | opencode session API | openclaw subagent SDK |
+
+## 强制检查（触发后立即执行）
+
+**在提出任何集成方案前，必须回答：**
+
+□ 我要集成的模块使用的是哪个生态的 SDK？
+  - 来自 `openclaw/plugin-sdk` → **不可直接用于 openwork-server**，需重新设计或通过 HTTP 桥接
+  - 来自 opencode 原生（MCP/opencode.json）→ 可用于 openwork-server
+  - 来自第三方 npm 包 → 检查依赖是否与 Bun 兼容
+
+□ 目标集成的插件是否已有 **opencode 生态的等效实现**？
+  - 先搜索：opencode.json `plugin` 列表 + openwork hub skills
+  - 有等效实现 → 直接用，不重新集成外部插件
+
+□ 如果两套生态都需要同时使用，设计 HTTP 桥接层：
+  - openwork-server → HTTP API → openclaw 独立服务
+  - 不得共享同一进程内的 plugin registry
+
+## 典型案例（已踩坑）
+
+| 场景 | 错误做法 | 正确做法 |
+|---|---|---|
+| 接入 openclaw memory-core | 直接注册到 openwork-server plugin | 自建 BM25（workspace-search.ts）或通过 HTTP 调用独立 openclaw 服务 |
+| 接入 openclaw subagents | 直接注册 openclaw subagent SDK | 在 openwork-server 实现 MCP 工具（tashan-mcp/brain_ask 模式）|
+
+## 违反后果
+
+- 可能浪费整个 Phase 的设计工作
+- 架构草稿需要完全推倒重写
+- 关卡B 不会发现此类问题（兼容性不在安全审查范围内）
+
+---
+
+## 变更记录
+
+### 2026-03-21 — 初始创建
+
+**根因**：tashan-workbench Phase B 设计时，架构师提出使用 openclaw memory-core，调研/设计后才发现与 openwork-server 生态不兼容，需要完全重设计，浪费大量工时。
+
+**验证状态**：🔵 待验证（下次集成第三方框架时触发验证）

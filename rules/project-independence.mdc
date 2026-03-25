@@ -1,0 +1,118 @@
+---
+description: 项目独立性规范（RULE-INDEP）。当任务涉及基于外部开源项目构建新项目、集成第三方库、或在架构设计中引用外部代码时自动激活。确保每个项目完全自包含，不依赖外部项目的私有/不稳定 API。
+globs:
+alwaysApply: false
+---
+
+# 项目独立性规范（RULE-INDEP）
+
+> **触发条件**：任何涉及"基于 X 项目构建"、"集成第三方库"、"fork 已有仓库"的架构设计或开发任务。
+
+---
+
+## 核心原则
+
+**每个他山项目必须完全自包含（self-contained），运行时不依赖外部项目的私有 API 或内部实现细节。**
+
+---
+
+## 强制规则
+
+### RULE-INDEP-1：外部代码通过「复制源码」集成，不通过「安装包后引用私有路径」
+
+```
+❌ 错误做法：
+  import { MemoryIndexManager } from "openclaw/dist/manager-runtime--abc123.js"
+  问题：dist 文件名含 hash，每次编译变化，私有路径无版本保证
+
+✅ 正确做法：
+  1. 确认外部项目许可证允许复制（MIT/Apache 等开源许可）
+  2. 将所需源码目录复制到本项目内，如：
+     cp -r reference/repos/openclaw/src/memory/  apps/server/src/memory-engine/
+  3. 在文件头部注明来源：
+     // 来源：openclaw/src/memory/（openclaw 项目，MIT 许可）
+     // 原始 commit：ef7a5c3
+     // 与上游的差异：[列出所有修改]
+  4. 在 reference/repos/ 维护原始版本作为同步基准
+```
+
+### RULE-INDEP-2：只允许依赖外部包的「公开稳定 API」
+
+```
+判断标准：该 API 是否出现在 package.json 的 exports 字段中？
+  ✅ 出现在 exports → 公开 API，可以 import
+  ❌ 不在 exports，是 dist/ 内部路径 → 私有 API，不允许 import
+
+示例：
+  ✅ import { something } from "some-package"          ← 主入口公开 API
+  ✅ import { x } from "some-package/plugin-sdk/core"  ← exports 里声明的路径
+  ❌ import { x } from "some-package/dist/index-abc.js" ← hash 路径，私有
+  ❌ import { x } from "some-package/src/internal/x"   ← src 内部路径，私有
+```
+
+### RULE-INDEP-3：reference/ 目录是参考基准，不是运行时依赖
+
+```
+reference/repos/         ← 只读参考（git clone --depth=1 上游仓库）
+  opencode/              ← 用于理解架构、找到要复制的模块
+  openwork/              ← 作为 fork 的上游基准
+  openclaw/              ← 用于复制需要的源码模块
+  
+注意：
+  ✅ 开发时阅读 reference/ 理解代码
+  ✅ 从 reference/ 复制源码到自己项目
+  ❌ 运行时让项目代码 import from reference/ 路径
+  ❌ 把 reference/ 里的包安装为 npm 依赖后引用私有路径
+```
+
+### RULE-INDEP-4：Fork 项目必须明确声明「何时与上游同步」
+
+```
+每个 fork 的项目必须有：
+1. TASHAN-ARCHITECTURE.md（或等效文档）声明上游仓库和 commit hash
+2. 说明哪些文件是「从上游复制但做了修改」及修改原因
+3. 定义上游同步策略：
+   - 跟随上游：定期 git merge upstream/main
+   - 定点冻结：只在有明确需求时手动同步特定模块
+```
+
+---
+
+## 例外情况
+
+以下情况允许直接安装并使用外部包：
+
+| 情况 | 条件 |
+|---|---|
+| 使用 npm 包的公开 API | 必须出现在 package.json exports 中 |
+| 使用广泛使用的工具库 | 如 zod / @sinclair/typebox / bun:sqlite 等标准工具 |
+| 已发布稳定 npm 版本的模块 | 版本锁定在 package.json 中 |
+
+---
+
+## 触发后立即执行
+
+```
+1. 检查本次架构/开发是否涉及引用外部项目代码
+2. 若涉及：
+   □ 该代码是否通过 package.json exports 公开暴露？
+     是 → 可以安装包并 import
+     否 → 必须复制源码
+   □ 如复制源码：是否在文件头部注明来源和修改记录？
+   □ reference/repos/ 是否已有该上游仓库的 git clone？
+3. 在架构文档的「依赖策略」章节声明
+```
+
+---
+
+## 变更记录
+
+### 2026-03-22 — 初始创建（Level 2 新增型）
+
+**根因**：tashan-workbench-v2 架构设计时，发现 openclaw 的 MemoryIndexManager 不在 package.json exports 中，只能通过不稳定的内部 dist hash 路径访问。架构文档写了「直接 import openclaw」但这条路不通。需要明确「复制源码」才是正确的集成方式，并写成可复用规范。
+
+**影响范围**：所有涉及第三方仓库集成的架构决策。
+
+**验证方式**：关卡B（arch-destroyer）检查「是否依赖外部私有 API」；新项目架构文档中应有「依赖策略」章节声明。
+
+**验证状态**：🔵 待验证（下次含外部集成的架构任务时验证）

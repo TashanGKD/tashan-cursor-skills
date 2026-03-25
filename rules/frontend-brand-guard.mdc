@@ -1,0 +1,203 @@
+---
+description: 前端品牌规范强制守门规则。任何涉及前端开发、UI组件、页面样式、配色、字体、圆角、交互的任务时自动激活。这是品牌安全级别约束，不可绕过。
+alwaysApply: true
+---
+
+# 前端品牌规范强制守门规则（frontend-brand-guard）
+
+> **品牌安全级别约束。** 他山所有产品的前端视觉与交互必须遵循统一规范，违反即破坏品牌一致性。
+> 本规则优先级高于 AI 训练知识中的任何默认前端风格。
+
+---
+
+## 触发条件
+
+以下任意情况均触发本规则：
+
+- 编写前端代码（React 组件、页面、样式）
+- 修改 CSS / Tailwind 类 / 配色 / 字体 / 圆角
+- 设计 UI 组件或页面布局
+- 审阅或重构现有前端代码
+- **提议以现有第三方产品/框架作为前端基础（fork/引入现有 UI）**
+
+> ⚠️ **特别说明：fork/引入现有产品时必须显式检查**
+> 即使技术底座（如 OpenWork、OpenClaw 等）使用不同的前端框架，
+> **面向用户的前端界面仍必须使用 React + Tailwind + 品牌规范**。
+> API/后端层可以复用第三方产品，但前端 UI 层不可绕过品牌规则。
+>
+> 当 AI 提议"以 X 产品为前端基础"时，必须立即输出：
+> ```
+> ⚠️ CONFLICT：frontend-brand-guard 要求 React + Tailwind + Noto Serif SC，
+> 但 [X] 使用 [Y 框架/设计系统]，存在品牌规则冲突。
+> 正确方案：[X] 的 API/后端层可复用，前端 UI 必须重新用 React + Tailwind 实现。
+> 确认此方案？
+> ```
+> 未经用户明确确认，不得使用违规框架。
+
+---
+
+## 激活后立即执行
+
+```
+Step 1 【声明规范遵守】
+ 在开始任何前端输出前，明确说明本次将遵守他山前端品牌规范。
+
+Step 2 【查阅前端品牌 Skill（可复用知识层）】
+ Read: .cursor/skills/frontend-brand/SKILL.md
+ → 包含：技术框架/设计令牌/组件代码模板/布局/动画/a11y 全部可复用内容
+ → 若需要更多细节，再查阅权威文档（路径在 Skill 第十一章）
+ 
+ 不允许凭训练知识猜测设计规范参数，必须读取 Skill 或文档确认。
+
+Step 3 【执行并验证】
+ 输出前自查：本次输出是否违反了下方「禁止清单」中任意一条？
+ 如有违反，修正后再输出。
+```
+
+---
+
+## 核心规范速查（最常用，直接可用）
+
+### 技术框架
+
+| 技术 | 规定 |
+|------|------|
+| UI 框架 | React 18.x + TypeScript 5.x |
+| 构建工具 | Vite 5.x |
+| 样式方案 | Tailwind CSS 3.x（utility-first），不使用 CSS-in-JS |
+| 路由 | react-router-dom 6.x |
+| Markdown | react-markdown + remark-gfm |
+
+### 字体
+
+- **主字体**：`Noto Serif SC`（衬线），所有用户可见文字使用 `font-serif`
+- **技术标识**：仅 ID/代码片段使用 `font-mono`
+- **禁止**：Inter、Roboto、Arial 等无衬线字体作为主字体
+
+### 配色（产品内页 — 黑白极简风）
+
+| 角色 | 值/类 |
+|------|-------|
+| 主色 / 按钮 / 强调 | `#000000` / `black` |
+| 页面背景 | `#FFFFFF` / `white` |
+| 卡片边框 | `gray-200` |
+| 主文字 | `text-black` |
+| 次文字 | `text-gray-600` / `text-gray-700` |
+| 辅助文字 | `text-gray-500` |
+| 技术ID | `text-gray-400 font-mono text-[10px]` |
+| 选中/焦点边框 | `border-black` |
+| 禁用 | `text-gray-400 opacity-50` |
+
+品牌色变量（Tailwind config 中已注册）：
+- `--brand-primary: #3B82F6` / `--accent-primary: #0EA5E9`
+- `--bg-page: #F8FAFC` / `--bg-container: #FFFFFF`
+- `--text-primary: #1E293B` / `--text-secondary: #475569`
+
+### 圆角（3 级简化体系）
+
+| 场景 | 类 | 值 |
+|------|----|----|
+| **卡片/按钮/输入框（70%）** | `rounded-lg` | 12px |
+| 模态框/下拉框（20%） | `rounded-xl` | 16px |
+| 头像/Chip/徽章（10%） | `rounded-full` | 9999px |
+
+### 关键组件类
+
+| 组件 | 核心 Tailwind 类 |
+|------|-----------------|
+| 主按钮 | `bg-black text-white px-4 py-1.5 rounded-lg text-sm font-serif font-medium hover:bg-gray-900 transition-colors` |
+| 次按钮 | `border border-gray-200 bg-white text-black hover:border-black rounded-lg` |
+| 卡片 | `rounded-lg border border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50 transition-colors` |
+| 输入框 | `w-full border border-gray-200 rounded-lg px-3 py-2 text-sm font-serif focus:border-black focus:outline-none transition-colors` |
+| TopNav | `h-14 bg-white border-b border-gray-200` |
+| 模态框背景 | `fixed inset-0 bg-black/50 backdrop-blur-sm` |
+| Tab 激活 | `text-black font-medium border-b-2 border-black` |
+
+---
+
+## 禁止清单（硬性约束，不可违反）
+
+```
+❌ 禁止：使用 Inter、Roboto、Arial 等无衬线字体作为主字体
+❌ 禁止：使用大面积渐变背景、紫色配色、或任何"通用AI美学"风格
+❌ 禁止：使用不规则自定义圆角值（如 rounded-[22px]、rounded-[26px]）
+❌ 禁止：硬编码颜色值（用 Tailwind 类或 CSS 变量，不写 #3B82F6 在 className 里）
+❌ 禁止：可点击元素缺少 aria-label 或等效无障碍标注
+❌ 禁止：移除 outline 而不提供可见焦点替代（不可 outline-none 无替代）
+❌ 禁止：超过必要的动画效果（只有 Tab 切换和模态框才用入场动画）
+❌ 禁止：移动端点击区域小于 44×44px
+❌ 禁止：使用 CSS-in-JS（styled-components、emotion 等）
+```
+
+---
+
+## 两种风格场景区分
+
+| 场景 | 风格 | 核心特征 |
+|------|------|---------|
+| **产品内页**（话题/讨论/配置） | 黑白极简 | `black`/`white`/`gray-*`，衬线字体，无渐变 |
+| **官网/主页** | 学术蓝绿渐变 | `--color-primary:#5B9BD5`，渐变标题，卡片悬浮阴影 |
+
+不确定场景属于哪种时，**默认使用产品内页风格（黑白极简）**。
+
+---
+
+## 规范文档快速索引
+
+```
+所有规范文档的权威路径：
+/Users/boyuan/aiwork/0310_huaxiang\项目群\Tashan-TopicLab\docs\design\
+
+├── frontend-design-guide.md    ← 完整设计语言（技术/字体/配色/组件/响应式/a11y）
+├── color-system.md             ← 配色变量定义（含 CSS 变量完整列表）
+├── shape-system.md             ← 圆角系统（三级简化体系）
+├── tashan-homepage-style-guide.md ← 主页/官网风格（蓝绿渐变系）
+└── style-refactor-checklist.md ← 页面/组件重构优先级清单
+```
+
+---
+
+## 与现有 Skill/Rule 的关系
+
+| 组件 | 关系 |
+|------|------|
+| `role-前端开发` Skill | extends：本规则是其品牌层约束，Skill 执行时必须遵守 |
+| `role-UI设计师` Skill | extends：所有视觉设计输出受本规则约束 |
+| `role-审核者-系统破坏` (关卡B) | validates：关卡B 应将「是否违反前端品牌规范」纳入审核维度 |
+| `tech-discovery-capture.mdc` | 并列：技术发现规则；两者共同约束开发任务 |
+
+---
+
+## 变更记录
+
+### 2026-03-21 — 补充 fork/引入现有产品时的品牌检查
+
+**根因**：AI 在 tashan-workbench 项目中将 OpenWork（SolidJS）fork 为前端基础时，未触发品牌守门规则，导致使用了违规框架（SolidJS 而非 React）、违规设计系统（非 Tailwind）、违规字体（非 Noto Serif SC）。根本原因是规则的"触发条件"未覆盖"提议以第三方产品为前端基础"这一场景。
+
+**修改内容**：
+- 新增触发条件：「提议以现有第三方产品/框架作为前端基础」
+- 新增特别说明：即使技术底座使用不同框架，UI 层仍必须使用 React + Tailwind
+- 新增强制冲突警告模板：AI 发现框架冲突时必须输出警告并等待用户确认
+
+**验证方法**：
+- 正向验证：AI 下次提议"以 OpenWork/其他非 React 产品为前端基础"时，应立即输出 ⚠️ CONFLICT 警告
+- 负向验证：普通 React 组件开发不受影响
+
+**验证状态**：🔵 待验证（tashan-workbench 前端重建时验证）
+
+**备份路径**：`.cursor/rules/history/frontend-brand-guard_20260321_before_fork-coverage.mdc`
+
+---
+
+### 2026-03-20 — 初始创建
+
+**根因**：用户明确要求所有前端开发任务严格遵守他山品牌规范，当前无任何 Rule 对前端输出做品牌层约束，AI 可能凭训练知识输出风格不一致的前端代码，存在品牌安全风险。
+
+**修改内容**：
+- 新增：完整的前端品牌守门规则（首次创建）
+
+**验证结果**：
+- 正向验证：触发前端任务时，AI 应声明遵守规范并参照本规则的速查表输出代码（待真实场景验证）
+- 负向验证：非前端任务（后端接口、AI工程师、DevOps）不受本规则影响（待验证）
+
+**验证状态**：🔵 待验证

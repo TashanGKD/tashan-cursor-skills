@@ -1,0 +1,34 @@
+---
+description: Skill/Rule 修改保护规则。当 AI 准备修改任何 .cursor/skills/ 或 .cursor/rules/ 文件时自动触发，强制要求先加载 skill-rule-修改规范 Skill，不允许未经规范直接修改。
+alwaysApply: false
+globs: [".cursor/skills/**", ".cursor/rules/**"]
+---
+
+# Skill / Rule 修改保护规则
+
+> 这条规则在 AI 试图修改任何 Skill 或 Rule 文件时自动生效。
+
+## 强制前置步骤
+
+**在修改 `.cursor/skills/` 或 `.cursor/rules/` 下的任何文件之前，必须先执行**：
+
+```
+Step 1  加载并阅读：.cursor/skills/skill-rule-修改规范/SKILL.md
+Step 2  回答「修改前三问」（根因/影响范围/验证方法）
+Step 3  执行版本留痕（Copy-Item 到 history/ 目录）
+Step 4  然后才能开始修改
+```
+
+**跳过以上步骤直接修改 = 违规操作。**
+
+## 为什么
+
+Skill 和 Rule 是所有 AI 行为的约束层。修改它们的影响范围远大于修改业务代码：
+- 业务代码出错：某个功能不对
+- Skill/Rule 出错：所有未来任务都可能系统性偏差，且难以溯源
+
+## 豁免情况
+
+以下情况可以在修改后补做留痕（但「修改前三问」不可豁免）：
+- 紧急修复正在造成系统性错误的规则
+- 在同一对话轮次内对刚刚新建的 Skill/Rule 的小幅修正（尚未有任何执行历史）

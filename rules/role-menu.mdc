@@ -1,0 +1,306 @@
+---
+description: 他山AI产品角色菜单。列出所有可用角色Skill及触发方式。每次对话开始时AI自动知晓，用户说"开始[任务]"时按此菜单加载对应角色。
+alwaysApply: true
+---
+
+# 他山AI产品 · 角色菜单
+
+> 当用户开始任何产品开发任务时，AI 必须先加载对应角色的 Skill，按其激活协议执行，而不是凭训练知识随意发挥。
+
+---
+
+## 可用角色一览
+
+| 角色 | Skill 路径 | 触发场景 |
+|---|---|---|
+| 产品经理 | `.cursor/skills/role-产品经理/SKILL.md` | 产品设计、需求分析、用户流、闭环设计、MVP、产品定义、开发计划 |
+| 技术架构师 | `.cursor/skills/role-技术架构师/SKILL.md` | 技术架构、系统设计、数据模型、接口规范、技术选型 |
+| 前端开发 | `.cursor/skills/role-前端开发/SKILL.md` | 前端实现、React、TypeScript、页面、组件、接口联调 |
+| 后端开发 | `.cursor/skills/role-后端开发/SKILL.md` | 后端实现、FastAPI、API接口、数据库、认证、SSE |
+| AI工程师 | `.cursor/skills/role-AI工程师/SKILL.md` | LLM调用、Prompt设计、智能体、多智能体工作流、效果评测 |
+| 测试工程师 | `.cursor/skills/role-测试工程师/SKILL.md` | 测试验收、Bug报告、关卡C、功能验证、闭环测试 |
+| Bug修复循环协调者 | `.cursor/skills/bug-fix-loop-coordinator/SKILL.md` | **测试后自动循环修复直到上线**：读取技术问题追踪台→按P0→P1→P2优先级spawn fixer子智能体修复→每修复一个触发回归→循环直至P0+P1全清→输出可上线结论（所有信息通过文档传递）|
+| 修复子智能体 | `.cursor/agents/fixer.md` | **可被spawn的代码修复子智能体**：隔离上下文+完整TDD协议(复现→失败测试→修复→CI→追踪台)；三种模式：①单Bug内联修复(被测试agent spawn)②全自动修复循环(读追踪台P0→P1→P2至收敛)③紧急P0热修复；修复3次失败自动升级人工|
+| 测试环境自动准备 | `.cursor/skills/test-env-setup/SKILL.md` | **测试前一键准备环境**：服务健康检查→自动启动后端→DB验证→测试账号自动创建→依赖验证；有终端权限，自动修复环境问题，失败时输出诊断指引（被 role-测试工程师 Step 0 和 fixer Step A0/B0 自动调用）|
+| DevOps | `.cursor/skills/role-DevOps/SKILL.md` | 部署、上线、CI/CD、服务器、nginx、SSL、端口 |
+| UI设计师 | `.cursor/skills/role-UI设计师/SKILL.md` | 界面设计、交互设计、体验感、组件规范、视觉 |
+| 数据分析师 | `.cursor/skills/role-数据分析师/SKILL.md` | 数据分析、闭环完成率、用户行为、AI调用成本、健康度报告 |
+| 审核者·用户模拟 | `.cursor/skills/role-审核者-用户模拟/SKILL.md` | **关卡A**：产品定义完成后、代码开始前，强制执行 |
+| 审核者·系统破坏 | `.cursor/skills/role-审核者-系统破坏/SKILL.md` | **关卡B**：技术架构完成后、代码开始前，强制执行 |
+| 规范问题修复 | `.cursor/skills/project-convention-resolver/SKILL.md` | **发现规范偏差时（产品/架构/代码/文档/Skill）**：分类→路由执行修复→验证→归档（与 issue-tracker 的区别：后者只记录，本 Skill 自动执行修复）|
+| 问题追踪 | `.cursor/skills/issue-tracker/SKILL.md` | **用户报告问题时**：拆解为产品设计问题和技术问题，分别记录到追踪台 |
+| 产品演进规划 | `.cursor/skills/product-evolution-planner/SKILL.md` | **主动分析产品**：对照 AI时代产品原则，识别缺口，生成战略建议（与 role-产品经理 不同：后者执行具体设计；本 Skill 是原则驱动的主动诊断）|
+| Skill体系健康检查 | `.cursor/skills/skill-system-health-check/SKILL.md` | **主动检查 Skill/Agent/Rule 体系内部一致性**：触发词冲突/孤立组件/版本漂移/Rule叠加矛盾（注：只检查内部一致性，不检查传播完备性）|
+| Skill体系演进规划 | `.cursor/skills/skill-evolution-planner-meta/SKILL.md` | **基于历史数据规划 Skill 体系演进**：分析 CO-BUILD-LOG/PENDING-EXPERIENCES/PENDING-SKILLS，生成新建/重构/合并/废弃建议（对应产品侧的 product-evolution-planner）|
+| Skill体系完善执行 | `.cursor/skills/skill-system-evolution-executor/SKILL.md` | **L4系统型多组件完善的完整项目流程**：Phase0规模确认→Phase1分析计划→Phase2双审核（关卡A+B）→Phase3分批执行→Phase4整体验证→Phase5经验沉淀（§9.7 implements）|
+| Skill库全量搜索 | `.cursor/skills/skill-library-search/SKILL.md` | **全量搜索外部 Skill 仓库**：7维度强制协议（官方/开发者/Claude专项/平台/Topic/交叉引用/验证），禁止以少于7维度声称「全量」|
+| 输入分类器 | `.cursor/skills/cognitive-input-classifier/SKILL.md` | **输入路由前置层**：意图不明确时先分类——路径A（认知更新）→ cognitive-capture-fragment / 路径B（任务执行）→ 对应任务Skill；输出结论后强制停止等确认 |
+| 认知-工作对齐检查 | `.cursor/skills/cognitive-work-alignment-check/SKILL.md` | **四维健康检查第四维**：验证5个工作域核心产出是否可追溯到元思维体系（L1.5/L1），识别漂浮任务，输出对齐报告 |
+| Skill产品经理 | `.cursor/skills/role-Skill产品经理/SKILL.md` | **纯产品定义层**：Skill想法模糊时先「想清楚是什么」，双视角引导→输出draft卡片→再由skill-designer实现（注意：触发后手动引导skill-designer读draft）|
+| 沙盘扩充 | `.cursor/skills/skill-sandbox-expander/SKILL.md` | **系统化扩充沙盘库**：识别覆盖缺口→两阶段生成（Phase1不读SKILL.md）→持续推进100目标（也可补全已有draft）|
+| 场景沙盘生成 | `.cursor/skills/scenario-sandbox-builder/SKILL.md` | **从零发现所有任务场景并建沙盘**：从role-*动态归纳场景→识别大闭环（含认知根D0节点）→生成draft沙盘文件供 skill-closure-verifier-meta 消费。与沙盘扩充的区别：本Skill做初始全量发现，沙盘扩充做后续缺口填充 |
+| 域健康检查 | `.cursor/skills/skill-domain-health-check/SKILL.md` | **按域检查传播完备性**：节点可达/I-O契约满足/任意入口→闭环终态（通常由元验证器调用，也可独立运行）|
+| 域自我优化 | `.cursor/skills/skill-domain-self-optimizer/SKILL.md` | **基于Gap证据生成定向修复方案**：识别断裂模式→新Skill提案/现有Skill修改/缺失触发链路补全（通常由元验证器调用）|
+| 元级闭环验证 | `.cursor/skills/skill-closure-verifier-meta/SKILL.md` | **全系统闭环验证编排器**：两阶段（预想+实际）沙盘验证→域健康检查→域自优化→带证据的总健康报告（最高级Skill体系自检入口）|
+| 项目收尾检查 | `.cursor/skills/project-closeout/SKILL.md` | **项目完成后、再次打开前**：多角色文档审查 + 对话历史用户输入追踪，输出收尾报告（与 project-retrospective 不同：本 Skill 检查文档，后者更新 Skill 体系）|
+| 跨项目并行协调 | `.cursor/skills/cross-project-coordinator/SKILL.md` | **启动多项目并行开发时**：生成跨项目协调框架文档（项目地图/API契约/并行轨道/Day1清单），RULE-37 的执行层落地 |
+| 他山工作台开发 | `.cursor/skills/tashan-workbench-dev/SKILL.md` | **接手/开发/调试 tashan-workbench 时**：启动命令、架构速查、历史踩坑、测试方法 |
+| 新产品兼容性验证 | `.cursor/skills/product-launch-validator/SKILL.md` | **新产品/新场景立项前**：验证与三大闭环（Loop1 Skill覆盖/Loop2 认知根/Loop3 工作域）的兼容性，输出缺口报告（在 role-产品经理 前执行，可选但推荐）|
+| 三大闭环健康检查 | `.cursor/skills/three-loop-health-check/SKILL.md` | **日常快速健检**：Loop1+Loop2+Loop3↔2 统一仪表盘（运营指标+沙盘状态+D0覆盖率），约1分钟。⚠️ 无Full模式；深度验证→skill-closure-verifier-meta；生成沙盘→scenario-sandbox-builder |
+| Skill设计师 | `.cursor/skills/skill-designer/SKILL.md` | **新建/重构任何 Skill/Agent/Rule 时**：判断复杂度级别，双视角产品定义，触发对应关卡 |
+| 代码库探索 | `.cursor/skills/codebase-explorer/SKILL.md` | **接手任何代码库/理解现有系统时**：扫描架构，与产品定义对比，输出架构理解文档 |
+| 基于已有项目重构 | `.cursor/skills/project-reconstruction/SKILL.md` | **现有项目技术债严重、需从干净新项目开始迁移时**：6步流程（迁移评估→功能清单→技术框架+红蓝推演回写→Cursor规范配置→Phase开发计划），区别role-技术架构师：本Skill先盘清已有资产 |
+| 历史审计 | `.cursor/skills/history-auditor/SKILL.md` | **审查历史对话/提取工作规律时**：分析重复任务，提炼偏好，建议 Skill/Rule 升级 |
+| 架构差距分析 | `.cursor/skills/architecture-gap-mapper/SKILL.md` | **对比两个系统/竞品分析/找差距时**：并行读取，输出兼容/冲突/缺失三类，带证据链 |
+| 文档整合 | `.cursor/skills/doc-consolidator/SKILL.md` | **文档漂移/多版本并存/恢复单一真源时**：识别主真源，提取补充，重建结构 |
+| 整改计划 | `.cursor/skills/remediation-planner/SKILL.md` | **将分析发现转为行动计划时**：优先级分组，最小步骤，验证配对，branch结构建议 |
+| 工程原则录入 | `.cursor/skills/engineering-principle-recorder/SKILL.md` | **立一条新的工程/执行原则时**：分类（AI行为约束/工程设计/代码违规）→ 写入执行层（Role Skill/Rule）→ 审计违规点 → 覆盖报告。⚠️ 仅用于「原则本身尚不存在」的情况；若原则已有但被违反一次 → `project-convention-resolver`；若是认知/思维原则 → `cognitive-extract-principle` |
+| 项目待办管理 | `.cursor/skills/project-backlog/SKILL.md` | **两种模式**：【收集】任意混合输入（Bug/功能/UX/原则/建议）→ 解析追加到「项目待办.md」（不立即执行）；【处理】读文档 → 前置决策收集 → 按优先级逐条路由执行（原则→engineering-principle-recorder / Bug→bug-fix-loop / Feature→协调者）→ 更新状态 → 批次报告。⚠️ 触发词必须含「待办」关键词 |
+| Skill闭环捕捉 | `.cursor/skills/skill-capture-closure/SKILL.md` | **单次踩坑/单个经验沉淀**：判断新建或更新 Skill，同步索引 |
+| 项目级Skill复盘 | `.cursor/skills/project-retrospective/SKILL.md` | **项目/任务完成后批量复盘**：扫描全部调用过的 Skill，逐个沉淀 |
+| 系统调研输出 | `.cursor/skills/research-output/SKILL.md` | 对任何主题进行系统调研，产出图文Markdown（Mermaid+qwen-image），自动保存到认知结构知识库并注册 |
+| **专家培养** | `.cursor/skills/expert-bootstrap/SKILL.md` | **按需培养领域专家子智能体**：调研→对标→自问自答反思→产出可 dispatch 的专家 Agent 定义文件（B-object）。与调研（research-output）的区别：调研产出知识报告（K-object）供 CEO 用；专家培养让 Agent 成为该领域专家。Orchestrator 在「现有审查 Agent 对某领域深度不足」时触发 |
+| 统一写作流水线 | `.cursor/skills/document-pipeline/SKILL.md` | 写任何文档/文章/报告（研究→草稿→逻辑自检→真实性校对→画图→审稿→格式转换），可从任意阶段入场 |
+| 公众号文章写作 | `.cursor/skills/wechat-article-writer/SKILL.md` | 写他山公众号文章、推文；含HTML排版/配图/底部模板/发布流程 |
+| 通用文章写作 | `.cursor/skills/general-article-writer/SKILL.md` | 写技术分析/产品思考/对外分享/个人随笔；不含微信排版；输出 Markdown |
+| 学术 SI 写作 | `C:\Users\Boyuan\.cursor\skills\academic-si-writer\SKILL.md` | 写学术论文补充材料（SI），LaTeX格式，细胞力学/生物物理领域，PNAS/Nature风格 |
+| 文章审稿 | `.cursor/skills/article-proofreading/SKILL.md` | 审查任何文章草稿，检查AI腔/标题规范/绝对表达/结语 |
+| **AI配图生成** | `.cursor/skills/ai-image-generator/SKILL.md` | **能力层 Skill**：任何需要生成信息图时调用。含 qwen-image-2.0-pro API、多视角草图流程、风格库、配图索引联动。被 wechat-article-writer / role-UI设计师 / role-产品经理 等调用 |
+| 前端品牌设计系统 | `.cursor/skills/frontend-brand/SKILL.md` | 他山前端品牌完整参考手册：技术框架/设计令牌/配色/圆角/组件代码模板/布局/动画/a11y；被 role-前端开发 和 role-UI设计师 调用 |
+
+---
+
+## 使用方式
+
+**用户只需说明任务，AI 自动加载对应 Skill**：
+
+```
+"我想做一个新项目：[描述]"         → 加载 产品经理
+"设计一下技术架构"                  → 加载 技术架构师（草稿先回PM确认）
+"写后端的注册接口"                  → 加载 后端开发
+"测试刚写完的功能"                  → 加载 测试工程师（执行关卡C）
+"全自动修复循环/按Bug清单修复/修复所有问题/循环修复到上线/开始bug修复循环/测试发现了很多bug/自动修复到通过" → 加载 Bug修复循环协调者（测试→修复→回归→循环直至全清）
+"部署到服务器"                      → 加载 DevOps
+"产品定义写完了，做审核"            → 加载 审核者·用户模拟（关卡A）
+"技术架构写完了，做审核"            → 加载 审核者·系统破坏（关卡B）
+"这里有个问题/bug/不对"             → 加载 问题追踪（拆解并记录）
+"这里有个规范问题/这不符合规范"     → 加载 规范问题修复（分类→路由执行→验证）
+"基于产品原则/产品还缺什么/迭代建议" → 加载 产品演进规划（原则驱动的主动诊断）
+"检查Skill体系/Skill体系自检/Skill健康" → 加载 Skill体系健康检查（内部一致性审查）
+"Skill体系怎么演进/有没有新Skill要建"  → 加载 Skill体系演进规划（历史数据驱动）
+"执行Skill体系完善/L4系统型重构/按完善计划执行/开始Skill体系完善项目" → 加载 Skill体系完善执行（Phase0~5完整项目流程）
+"运行元验证/闭环验证/验证传播完备性/系统闭环检查/全域验证/元系统运行" → 加载 元级闭环验证（两阶段沙盘验证，最高级自检入口）
+"我有个Skill想法但没想清楚/帮我做Skill产品定义/作为Skill PM分析/帮我把Skill想清楚" → 加载 Skill产品经理（先想清楚是什么，不立刻实现）
+"帮我判断这是认知更新还是任务执行/这个输入是什么类型/先分类再执行/路由分类一下" → 加载 输入分类器（输出路径A/B/AB结论，等用户确认后再触发下游）
+"检查工作任务与认知的对齐/第四维健康检查/认知根对齐/认知体系和工作任务是否自洽" → 加载 认知-工作对齐检查（第四维，检查工作域是否有认知根）
+"扩充沙盘/增加沙盘/写更多沙盘/沙盘库不够/补全draft沙盘/把草稿补完" → 加载 沙盘扩充（系统化扩充，两阶段严格生成）
+"场景沙盘生成/为当前体系生成场景沙盘/发现所有任务场景并建沙盘/从零建沙盘库" → 加载 场景沙盘生成（从role-*动态发现场景，初始全量建沙盘）
+"检查[域名]域健康/[域名]域传播完备性检查" → 加载 域健康检查（按域传播完备性检查）
+"优化[域名]域/修复[域名]域Gap/[域名]域自优化" → 加载 域自我优化（定向修复方案生成）
+"这个Skill有问题/Skill有个bug/Skill不对" → 加载 问题追踪（拆解记录）+ 建议复查 Skill体系健康检查
+"我有个Skill的想法/可以加个Skill吗"    → 加载 Skill设计师（判断是否需要新建）或更新 PENDING-SKILLS
+"做收尾检查/确保文档自洽/项目收尾"  → 加载 项目收尾检查（文档一致性审查）
+"基于已有项目重构/重构方案/新建项目并迁移/搬家不重写/项目架构整改/从零开始但复用现有代码" → 加载 基于已有项目重构（6步迁移流程：评估→功能清单→框架→红蓝→规范→计划）
+"多项目并行/建协调框架/几个项目同时做/分工要明确/RULE-37" → 加载 跨项目并行协调（生成协调框架文档）
+"他山工作台/openwork-local/tashan-workbench 开发/工作台怎么启动/接手工作台/工作台调试" → 加载 他山工作台开发（专属Skill：启动/调试/踩坑速查）
+"新项目立项/新产品兼容性检查/立项前检查/这个产品兼容吗/三大闭环兼容性" → 加载 新产品兼容性验证（立项前三大闭环兼容检查，可选）
+"三大闭环健康检查/全系统健康报告/整体系统健康/三个闭环都健康吗/三大闭环状态怎么样" → 加载 三大闭环健康检查（日常快速健检，读取状态文件约1分钟）
+"新建Skill/设计一个Skill/写个Agent"  → 加载 Skill设计师（双视角引导，判断级别）
+"立一个原则/记下这个原则/这是条工程原则/以后所有X都要Y/把这条原则记在文档里/这应该是工程原则" → 加载 工程原则录入（分类→写入执行层→违规审计；仅用于新原则；已有规范被违反→project-convention-resolver；认知/思维原则→cognitive-extract-principle）
+"有几个问题先记到待办/加到项目待办/先存到待办文档/记录这些待办" → 加载 项目待办管理（收集模式：解析→追加文档，不立即执行）
+"处理项目待办/按待办文档逐条修复/开始处理待办文档" → 加载 项目待办管理（处理模式：读文档→决策收集→逐条执行→批次报告）
+"这次踩坑了/这个经验值得记"          → 加载 Skill闭环捕捉（单次经验沉淀）
+"项目做完了/更新一下Skill/沉淀经验"  → 加载 项目级Skill复盘（批量扫描+沉淀）
+「帮我调研X/大量调研/全景调研/调研一下/研究一下/系统了解/深入了解X/搜一下（需结构化知识产出）」 → 加载 系统调研输出（带图的整理+知识库+自动注册）
+"帮我调研X/调研一下/系统调研/研究一下/帮我系统了解X" → 加载 系统调研输出（图文报告→知识库→自动注册）
+"需要X领域的专家/培养专家/我们没有X方面的专家/这个任务需要X领域的深度审查/expert-bootstrap/专家培养/构建专家视角/让Agent成为专家" → 加载 专家培养（调研→自问自答→Agent定义文件）
+"写一篇公众号文章/他山推文/推文"      → 加载 公众号文章写作（含HTML排版/底部模板）
+"写一篇技术文章/产品分析/对外分享/通用长文/个人随笔" → 加载 通用文章写作（Markdown草稿+审稿）
+"写 SI/补充材料/LaTeX/学术附录"       → 加载 学术SI写作（LaTeX，细胞力学/生物物理）
+"审稿/帮我检查这篇文章/review一下"   → 加载 文章审稿（AI腔/标题/结语检查）
+"查前端规范/前端设计规范/品牌规范/设计令牌/组件模板/配色规范/字体规范"  → 加载 前端品牌设计系统（完整参考手册）
+```
+
+> **触发优先级说明**：当用户说「更新 Skill」但上下文是刚完成一个完整项目时，优先触发「项目级Skill复盘」。若仅为单个踩坑，触发「Skill闭环捕捉」。不确定时先问用户。
+
+---
+
+## 强制规则（不可违反）
+
+1. **加载 Skill 后，必须按其「激活后立即执行」步骤操作**，不可跳过
+2. **产品定义 → 必须经过关卡A → 才能写代码**
+3. **技术架构草稿 → 必须先回 PM 确认 → 才能执行关卡B → 才能下发给开发**
+4. **功能代码写完 → 必须经过关卡C → 才能标 ✅**
+   - 关卡C 不等于「顺便跑几个接口」。必须明确宣告切换为测试工程师视角
+   - 关卡C 有 4 条硬性通过门槛（详见测试工程师 Skill）
+   - **体验类测试项 AI 不能自行判断通过，必须输出「人工验收清单」等用户确认**
+5. **审核者与创作者必须使用不同认知视角**（见各 Skill 说明）
+6. **任何 Skill/Rule/Agent 设计、修改、完善类任务，必须先确认已读取 `Skill体系设计原则_v1.0.md §2.5`（三型决策树）**（见 `.cursor/rules/skill-design-guard.mdc`）：
+   - 本规则将「读原则文档」从各 Skill 内部 D0 约定升级为体系级守门
+   - 触发场景：任何涉及新建/修改/完善 Skill/Rule/Agent 的任务
+   - 确认三型（Rule/Agent/Skill）后再进入具体 Skill（skill-designer/skill-rule-修改规范/role-Skill产品经理）
+
+6b. **修改任何 Skill 或 Rule 文件前，必须先加载 `skill-rule-修改规范` Skill**
+   - 必须回答「修改前三问」（根因/影响范围/验证方法）
+   - 必须先做版本留痕（Copy-Item 到 history/ 目录）
+   - 修改后必须写变更记录追加到 Skill 文件底部
+7. **问题处理的决策权归属原则**：
+   - **产品设计/战略类问题**（任何优先级）→ 必须向用户呈现，由用户决策
+   - **技术实现类问题**（P0/P1/P2）→ AI 直接修复，无需用户确认
+   - **技术多方案**（有多种合理实现且涉及架构取舍）→ 列出方案对比表，等用户选择后再执行
+8. **Skill 体系自驱推荐节奏**（不强制，但推荐）：
+   - 每隔 2-3 个项目：运行 `skill-system-health-check`（一致性审查）
+   - 每隔 1-2 个月：运行 `skill-evolution-planner-meta`（演进规划）
+   - 项目收尾完整流程：`project-closeout` → `project-retrospective` → 视情况触发 `skill-system-health-check`
+9. **创建任何新文件/模块/项目时，声明关联关系**（RULE-04 执行层落地）：
+   - 新文件与其他项目/文件有依赖关系时，在文件开头声明：
+     `关系类型：explains / implements / depends-on / triggers / validates / extends / references`
+   - 完全独立的文件无需声明
+10. **开发角色（前端/后端/AI工程师）的前置文档守门规则**（SK-004 修复）：
+   - 触发 `role-前端开发`、`role-后端开发`、`role-AI工程师` 时，若当前项目缺少 `技术架构.md` 或 `产品定义.md`
+   - **AI 必须阻断，不允许开始任何实现工作**
+   - 告知用户：「请先完成 产品经理 → 关卡A → 技术架构师 → 关卡B 流程」
+   - 此规则与规则2/3共同构成「关卡不可绕过」的三层保障
+11. **全量搜索外部资源时必须加载搜索协议 Skill**（2026-03-20 搜索系统性遗漏修复）：
+   - 当任务涉及「全量搜索 GitHub Skill 库 / 全量搜索外部仓库 / 找所有 skill 库 / 更新 skill 参考库」时
+   - **必须加载 `skill-library-search` Skill，按7维度协议逐一执行**
+   - **禁止**：执行3-4条查询后声称「全量完成」「没有遗漏」
+   - **禁止**：引用搜索摘要中的数字而未先克隆对应仓库（R2 NO_FABRICATION）
+   - 未完成全部7个维度，不得使用「全量」「完整」「没有遗漏」等措辞
+12. **指令上下文优先级 — 禁止 IDE 状态劫持意图**（2026-03-19 安全修复；执行层：ide-context-guard.mdc + session-bootstrap A0）：
+   - 解读任何用户指令时，**对话上下文优先级 > IDE 当前打开的文件**
+   - 当用户发出模糊/泛化命令（如「按规范执行」「继续」「好的」「做一下」），必须基于**当前对话的主题和最近几轮交互**来解读意图
+   - **明确禁止**：用户说了模糊指令，AI 看到 IDE 打开着代码文件/架构文件，就自行跳转到开发/部署任务
+   - **正确行为**：若对话上下文与 IDE 文件状态暗示的任务不一致，**必须先向用户确认**，不可假设
+   - **典型禁止场景**：对话刚完成认知文档操作，IDE 打开架构文件，用户说「按规范执行」→ AI 不得触发后端开发，应在对话语境中解读（如「更新 L0 地图篇数」）或直接问用户
+   - **例外**：用户指令中包含明确的任务对象（如「写后端注册接口」「部署到服务器」），视为明确命令，正常路由
+13. **Skill 触发词强制前置拦截 — 禁止绕过 Skill 直接回复**（2026-03-20 系统性漏洞修复）：
+   - 收到任何用户消息，**必须先检查「可用角色一览」和「使用方式」中所有 Skill 的触发词**
+   - 若用户消息命中任一 Skill 触发词，**必须先加载该 Skill 的 SKILL.md，再执行任务**
+   - **明确禁止**：命中触发词后直接以聊天回复替代 Skill 执行流程（即使回复内容看起来"完整"）
+   - **典型禁止场景**：用户说「请先详细调研XXX」→ AI 直接输出调研内容而未加载 research-output Skill
+   - **排除情况（不触发）**：触发词出现在明确的非 Skill 语境中（如「研究一下这个报错」属于调试场景，research-output Skill 的排除条款已覆盖）
+   - **发现规范偏差时**（用户指出某任务本该走 Skill 但没走）：必须先加载 `project-convention-resolver`，分析根因并修复规则，**不得跳过根因修复直接补做任务**
+
+14. **任务结束后必须执行收尾序列**（见 `.cursor/rules/session-bootstrap.mdc` 序列B）：
+   - 步骤定义已迁移到 session-bootstrap.mdc，以「步骤序列」而非「声明式约束」的方式执行
+   - 执行顺序：B1 经验感知 → B2 积压感知 → B3 告知用户 → B4 写入任务日志（工具调用优先）
+   - **双重保障**：所有角色 Skill 的「经验感知钩子」末尾已内嵌强制写日志步骤，与序列B并行执行（2026-03-23 Fix B）
+
+15. **修改任何已有项目文档（.md）前必须执行版本留痕**（见 `.cursor/rules/project-doc-versioning-guard.mdc`）：
+   - 覆盖范围：`项目群/` 和 `_内部总控/开发规范/` 下的所有 .md 文档
+   - 排除：追加型日志（任务日志/PENDING-EXPERIENCES/系统日志/CO-BUILD-LOG）、新建文件、代码文件
+   - 强制四步：读取版本 → 备份到 history/ → 修改内容 → 追加变更记录
+   - 本规则与 `cognitive-structure-write-guard`（L1/L1.5）+ `skill-rule-修改规范`（.cursor/）共同构成全层文档留痕体系
+
+15a. **激活任何产品开发角色前，优先从项目的 .cursor/project-config.md 解析文档路径**（见 `.cursor/rules/document-path-resolver.mdc`）：
+   - 触发时机：任何产品开发角色（PM/架构师/前后端/AI/测试/DevOps/fixer/coordinator）激活时，Step -2 执行前
+   - 作用：把「Skill 硬编码的标准路径」替换为「project-config.md 中声明的实际路径」，支持老项目（数字编号目录）和新项目（角色文件夹）共存
+   - 创建方式：在项目根目录的 `.cursor/project-config.md` 声明路径映射表（格式见规则说明）
+   - 无配置文件：降级使用标准默认路径（产品经理/、技术架构师/、测试工程师/ 等）
+
+15b. **每个角色在项目中有且仅有一个文档文件夹，激活时自建，持续演化**（见 `.cursor/rules/document-lifecycle-guard.mdc`）：
+   - 文件夹结构：`产品经理/` / `技术架构师/` / `测试工程师/` / `DevOps/` / `内部总控/`
+   - 激活即自建：角色第一次激活时，如果自己的文件夹/文档不存在，自动创建（Step -2/-1）
+   - in-place 更新：核心文档永远只有一份，不创建「产品定义_v2.md」等平行版本
+   - 追加变更记录：每次修改核心文档，必须在底部「变更记录」追加一行
+   - 重大改版存旧版：修改超过30%时，先 cp 到 `history/` 子目录，再修改
+   - 追踪台 append-only：问题追踪台只加不删（解决后改状态，不删行）
+
+16. **修复/测试时影响用户可见行为前必须通过产品对齐检查**（见 `.cursor/rules/product-alignment-guard.mdc`）：
+   - 触发时机：fixer / bug-fix-loop-coordinator / 开发角色准备修改用户可见行为时；或 Bug 为 P2 但涉及产品诚信/认知飞轮/变现路径时
+   - 强制检查：修复方案是否符合产品定义意图（不只是让测试通过）；是否将技术P2的Bug误判为低优先级但实际破坏核心体验
+   - 与 bug-fix-tdd-guard 形成双保障：技术正确性（测试通过）+ 产品正确性（行为符合设计意图）
+   - 防止：「选最方便的技术方案」「P2 Bug 实际是产品核心体验问题」两类常见错误
+
+17. **测试声明「完成」前必须通过覆盖验证**（见 `.cursor/rules/test-coverage-guard.mdc`）：
+   - 触发时机：role-测试工程师 激活期间，AI 准备输出「测试完成」「等待上线」「进 DevOps」等声明时
+   - 强制检查：`测试工程师/test-coverage-state.md` 中是否有「🔲待执行」项目
+   - 有待执行项 → 禁止声明完成，必须先解决差集
+   - 防止：「运行了 run_tests.py = 完成了主测试文档全部测试」的错误等价
+   - 与 role-测试工程师 Step 0.4（建立基线）/ Step 5.5（逐条更新）/ Step 6.4（覆盖门禁）配合
+
+17. **Bug 修复时必须遵守 TDD 修复约束**（见 `.cursor/rules/bug-fix-tdd-guard.mdc`）：
+   - 触发场景：任何开发角色在修复一个具体 Bug 时（Bug ID 已知，来自追踪台或用户报告）
+   - 强制7步序列：先复现 → 先写失败测试（Red）→ 写修复代码（Green）→ CI全量回归 → 更新追踪台 → 追加修复记录 → 通知协调者
+   
+   > **修复质量三角保障（规则 16+17+18 配合）**：
+   > 规则 16（product-alignment-guard）= **产品正确**（修复符合设计意图，不只是技术方便）
+   > 规则 17（test-coverage-guard）= **覆盖完整**（测试全量覆盖）
+   > 规则 18（bug-fix-tdd-guard）= **技术正确**（TDD 保证代码质量）
+   - 禁止：没有测试的修复、借机重构、CI不通过就提交、跳过追踪台更新
+   - 本规则确保「修一个Bug不出另一个Bug」，与 bug-fix-loop-coordinator 配合实现完整修复闭环
+
+---
+
+> 📖 配套知识库与变更记录详见：`.cursor/rules/role-menu-details.md`
+
+---
+
+## P0-4 变更记录（2026-03-21）
+
+**根因**：Rule 14 是声明式文本约束，执行可靠性是概率性的（参见「声称完成≠实际执行」历史问题）。本次将执行协议迁移到 session-bootstrap.mdc（步骤序列形式），role-menu 只保留路由表职责。
+
+**修改**：Rule 14 全文 → 一行引用（指向 session-bootstrap.mdc 序列B）
+
+**配套**：新建 session-bootstrap.mdc（alwaysApply:true）；co-build-log 改为条件触发（见下）
+
+**验证状态**：🔵 待验证
+
+---
+
+## P0-7 变更记录（2026-03-24）
+
+**根因**：P0-6 的 bug-fix-loop-coordinator 将修复任务 dispatch 给「开发角色」（Skill，需用户手动触发），无法被自动 spawn。测试 agent 发现 P0 时无可 spawn 的修复子智能体，全自动闭环断裂。需要一个与 verifier 对称的「可被 spawn 的可写修复子智能体」。
+
+**新增**：
+- `.cursor/agents/fixer.md`（修复子智能体：隔离上下文+完整TDD协议，三种模式：单Bug内联/全自动循环/紧急P0热修复，3次失败自动升级人工）
+- `.cursor/agents/templates/postmortem-template.md`（P0修复后引用）
+
+**更新**：
+- `bug-fix-loop-coordinator/SKILL.md`：Step 3.3 改为 spawn `/fixer` 子智能体，Step 3.4 按 fixer 返回状态（success/escalated/cannot_reproduce）分支处理
+
+**验证状态**：🔵 待验证
+
+**备份路径**：`.cursor/rules/history/role-menu_20260324_before_fixer_agent.mdc`
+
+---
+
+## P0-6 变更记录（2026-03-24）
+
+**根因**：测试→修复→再测试的循环需要协调者，现有 Skill 体系中测试（role-测试工程师）和修复（各开发角色）之间缺乏自动循环机制，发现 Bug 后需要人工判断优先级、手动触发修复、手动触发回归，整个过程不能自动持续到产品达到上线标准。
+
+**新增**：
+- `.cursor/skills/bug-fix-loop-coordinator/SKILL.md`（循环协调者，读追踪台→dispatch修复→触发回归→循环直至P0+P1清零）
+- `.cursor/rules/bug-fix-tdd-guard.mdc`（TDD修复约束，先写失败测试再修代码，禁止无测试的修复）
+- 三个模板文件（test-round-tracker-template.md、fix-record-template.md、postmortem-template.md）
+
+**更新**：
+- `role-测试工程师/SKILL.md`：新增 Step 6.3（循环感知，测试完成后写入追踪台+轮次追踪表）
+- `role-menu.mdc`：注册新 Skill 触发词，新增规则16（Bug修复TDD约束）
+
+**验证状态**：🔵 待验证（下次触发 bug-fix-loop-coordinator 时验证循环是否正常运行）
+
+**备份路径**：`.cursor/rules/history/role-menu_20260324_before_bug-fix-loop.mdc`
+
+---
+
+## P0-5 变更记录（2026-03-22）
+
+**根因**：tashan-forge 项目中，AI 将「给 OpenClaw 换前端」做成了「重新构建一套类似系统」，根本原因是缺少对「非从头开发项目」的方法论规范。新增 `fork-first-methodology.mdc`（alwaysApply: false，触发词检测激活）和技术架构师 Step 0.4 诊断门，确保 Fork-First 项目正确执行。
+
+**新增**：`.cursor/rules/fork-first-methodology.mdc`
+
+**更新**：`role-技术架构师/SKILL.md` Step 0.4（Fork-First 诊断门）
+
+**验证状态**：🔵 待验证
+
+---
+
+## P0-2 变更记录（2026-03-20）
+
+**根因**：配套知识库表（~35行）和变更记录（~80行）是文档性内容，alwaysApply 注入属于浪费，迁移到 role-menu-details.md。路由表、触发词、13条规则均保留，AI 路由行为不变。
+
+**备份**：`.cursor/rules/history/role-menu_20260320_before_p0fix.md`
+
+**验证**：修改后 AI 仍能正确路由到各 Skill，13条规则仍生效（两者均保留在本文件中）
