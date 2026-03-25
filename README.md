@@ -1,189 +1,252 @@
-# 他山 Cursor Skill 体系
+<!-- Logo -->
+<p align="center">
+  <a href="https://tashan.ac.cn" target="_blank" rel="noopener noreferrer">
+    <img src="docs/assets/tashan.svg" alt="他山 Logo" width="280" />
+  </a>
+</p>
 
-> **让 AI 在执行任务时能自主判断、按规范执行、并从经验中自我进化。**
+<!-- 标题 -->
+<p align="center">
+  <strong>他山 Cursor Skill 体系</strong><br>
+  <em>Tashan Cursor Skill System — Self-Evolving AI Execution Framework</em>
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/Skills-95-blue)](skills/)
-[![Rules](https://img.shields.io/badge/Rules-32-green)](rules/)
-[![Agents](https://img.shields.io/badge/SubAgents-18-purple)](agents/)
+<!-- 快速导航 -->
+<p align="center">
+  <a href="#项目简介">项目简介</a> •
+  <a href="#功能特性">功能特性</a> •
+  <a href="#快速开始">快速开始</a> •
+  <a href="#代码结构">代码结构</a> •
+  <a href="#生态位置">生态位置</a> •
+  <a href="#贡献">贡献</a> •
+  <a href="README.en.md">English</a>
+</p>
 
----
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Skills](https://img.shields.io/badge/Skills-95-blue)](#功能特性)
+[![Rules](https://img.shields.io/badge/Rules-32-green)](#功能特性)
+[![Agents](https://img.shields.io/badge/SubAgents-18-purple)](#功能特性)
 
-## 这是什么
-
-这是[他山 AI](https://tashan.chat)在实际产品开发过程中积累的 **Cursor AI 执行规范体系**，包含：
-
-- **95 个 Skills**：从「产品经理」到「DevOps」，覆盖产品开发全链路、认知积累、Bug修复、内容创作等完整工作流
-- **32 个 Rules**：自动注入的质量守门规则，保证流程顺序、文档规范、代码质量
-- **18 个 SubAgents**：独立视角的专项 Agent（审核者/修复者/评测者），实现真正的认知隔离验证
-
-体系的核心目标：**AI 不只是执行命令的工具，而是一个有完整规范、会自我进化的智能执行系统。**
-
----
-
-## 快速了解
-
-### 说一句话，AI 自动走完整流程
-
-```
-你说：「做一个用户登录功能」
-系统做：
-  → 识别为「新功能」任务
-  → role-产品经理：输出产品定义 + 功能状态表
-  → role-审核者-用户模拟（关卡A）：用挑剔用户视角审查
-  → role-技术架构师：设计技术方案
-  → role-审核者-系统破坏（关卡B）：找安全漏洞和架构缺陷
-  → role-后端开发 + role-前端开发：并行实现
-  → role-测试工程师（关卡C）：验证功能 + 输出人工验收清单
-  → role-DevOps：部署上线
-```
-
-### 踩坑自动沉淀，下次不再犯
-
-```
-执行中发现问题
-  → Signal 机制自动捕捉（A:踩坑 / B:盲区 / C:缺口 / D:洞见 / ...）
-  → PENDING-EXPERIENCES 队列暂存
-  → project-retrospective 分析共性 → 更新 Skill/Rule
-  → 下次遇到同类场景：自动规避
-```
+> 围绕「AI 自我进化」构建的 Cursor 执行规范体系：95 个 Skills、32 个 Rules、18 个 SubAgents，让 AI 在执行任务时能自主判断、按规范执行、并从经验中自我进化。
 
 ---
 
-## 目录结构
+## 项目简介
 
-```
-tashan-cursor-skills/
-├── README.md                    ← 你在这里
-├── docs/
-│   ├── overview.md             ← 完整说明文档（推荐先读）
-│   ├── Skill体系设计原则_v1.0.md ← 设计哲学
-│   └── SYSTEM-BLUEPRINT.md     ← 体系蓝图
-├── skills/                      ← 95个 Skill
-├── rules/                       ← 32个 Rule
-├── agents/                      ← 18个 SubAgent
-└── index/
-    └── skill-index/
-        └── SKILL-INDEX.md       ← 完整索引
-```
+「人—智能体混合数字世界」研究的核心主张之一，是让 AI Agent 不只是工具，而是具备完整规范、能自我进化的智能执行系统。本项目对应其中的**能力层（Skill 体系）**，负责解决 AI 在实际产品开发中「每次从零开始、犯过的错还会再犯、用户需要手动指定所有流程」这三个根本问题。
 
----
+没有本项目，AI 每次对话都凭训练知识随意发挥，无规范、无沉淀、无进化；有了本项目，AI 拥有成体系的「做事方式」，能自主识别任务类型、走完整流程、把踩坑自动转化为规范更新。
 
-## 核心 Skills 一览
+**核心思想**
 
-### 产品开发链路
+- **系统自我进化**：执行中自动捕捉踩坑信号（A-G 类），归纳共因，更新 Skill/Rule，下次自动规避
+- **三层能力架构**：Rules（约束守门）→ Skills（步骤序列）→ SubAgents（独立视角验证），三层分工明确
+- **通用质量闭环**：创建→独立验证（clean context）→响应→二次审核→关闭，适用于所有质量保障场景
 
-| Skill | 触发场景 | 作用 |
-|-------|---------|------|
-| `role-产品开发协调者` | 「新项目/做个功能/有个bug」| 识别任务类型，规划执行序列 |
-| `role-产品经理` | 「产品设计/需求/用户流」| 输出产品定义 + 开发计划 |
-| `role-技术架构师` | 「技术架构/系统设计」| 技术方案 + 接口规范 |
-| `role-前端开发` | 「前端/React/TypeScript」| React + TS + Vite 实现 |
-| `role-后端开发` | 「后端/FastAPI/API接口」| Python + FastAPI + PostgreSQL |
-| `role-AI工程师` | 「LLM/Prompt/智能体」| Prompt 设计 + Agent 构建 |
-| `role-测试工程师` | 「测试/验收/关卡C」| 功能验证 + 人工验收清单 |
-| `role-DevOps` | 「部署/上线/服务器」| 发布 + 运维 |
-| `role-审核者-用户模拟` | 「产品审核/关卡A」| 用户视角破坏性审查 |
-| `role-审核者-系统破坏` | 「架构审核/关卡B」| 系统安全/性能破坏性审查 |
+**适合以下场景与读者**
 
-### 辅助工作流
-
-| Skill | 触发场景 | 作用 |
-|-------|---------|------|
-| `bug-fix-loop-coordinator` | 「测试完成后」| Bug 修复闭环（dispatch fixer × N）|
-| `issue-tracker` | 「发现问题时」| 问题分类 → 两个追踪台 |
-| `project-backlog` | 「收到外部反馈」| 统一 Inbox，积累后批量处理 |
-| `expert-bootstrap` | 「需要某领域专家」| 调研→自问自答→产出专家 Agent |
-| `project-retrospective` | 「项目完成后」| 批量复盘，沉淀 Skill 体系 |
-
-### 认知积累
-
-| Skill | 触发场景 | 作用 |
-|-------|---------|------|
-| `cognitive-capture-fragment` | 「记录想法/有洞见」| 捕捉 L2 碎片 |
-| `cognitive-integrate-fragments` | 「整合碎片」| 升华进 L1 系统文档 |
-| `cognitive-extract-principle` | 「提炼原则」| 识别跨领域模式 → L1.5 原则库 |
+- 使用 Cursor AI 进行产品开发的独立开发者和团队，希望建立标准化开发流程
+- AI 工程师，研究如何让 AI Agent 具备自我进化能力
+- 产品经理/技术负责人，希望用 AI 覆盖设计→架构→开发→测试→上线全链路
+- 研究 Cursor Skill 体系设计原则的开发者
 
 ---
 
-## 核心 Rules 一览
+## 功能特性
 
-```
-session-bootstrap.mdc        ← 每次对话的执行协议（序列A+B）
-role-menu.mdc               ← 所有角色的触发词路由表
-comprehensive-change-guard  ← 多层变更强制按序执行
-bug-fix-tdd-guard           ← Bug修复强制 TDD 流程
-test-coverage-guard         ← 测试完成对账主测试文档
-document-lifecycle-guard    ← 自建领地 + 文档版本管理
-product-alignment-guard     ← 修复必须符合产品意图
-frontend-brand-guard        ← 品牌规范强制守门
-```
+**产品开发全链路自动化**
+- **自动识别任务类型**：说出需求，AI 自主判断是「新功能 / Bug / 配置变更」，规划执行序列
+- **完整关卡体系**：关卡 A（产品规格审核）→ 关卡 B（技术架构审核）→ 关卡 C（功能验证），每关独立视角，不可绕过
+- **Bug 修复闭环**：发现 → TDD 修复（先写失败测试）→ 回归验证 → 追踪台更新，全程有记录
+
+**自我进化机制**
+- **Signal A-G 自动捕捉**：6类信号（踩坑/盲区/缺口/洞见/效果不符/意外行为/根因）在任务完成后自动路由
+- **模式识别**：多次相似信号触发 project-retrospective，批量更新 Skill/Rule，解决根因而非逐条修补
+- **三问变更协议**：修改任何 Skill/Rule/Agent 前必须回答根因/影响/验证，保证变更可追溯
+
+**文档管理自动化**
+- **自建领地**：每个项目角色激活时自动创建/维护标准文档结构（产品定义/技术架构/追踪台等）
+- **版本留痕**：修改项目文档前自动备份旧版，追加变更记录
+- **路径适配**：通过 project-config.md 解析文档路径，适配不同项目目录结构
+
+**认知积累与沉淀**
+- **L2 碎片捕捉**：工作中的洞见自动记录为认知碎片
+- **知识升华**：碎片积累后整合进 L1 系统性文档，跨项目可复用
+- **原则提炼**：发现跨领域模式时，提炼为底层原则供所有任务参考
 
 ---
 
-## 快速安装
+## 快速开始
 
-### 方式一：直接复制
+### 1. 克隆仓库
 
 ```bash
 git clone https://github.com/TashanGKD/tashan-cursor-skills.git
+```
 
-# 复制到你的项目
+### 2. 复制到你的项目
+
+```bash
+# 全量使用（推荐）
 cp -r tashan-cursor-skills/skills/* your-project/.cursor/skills/
 cp -r tashan-cursor-skills/rules/* your-project/.cursor/rules/
 cp -r tashan-cursor-skills/agents/* your-project/.cursor/agents/
 ```
 
-重启 Cursor，所有 Skill 和 Rule 自动生效。
+### 3. 重启 Cursor
 
-### 方式二：选择性使用
+关闭并重新打开 Cursor，所有 Skill 和 Rule 自动生效。
 
-只复制你需要的 Skill：
+### 4. 创建项目配置文件（推荐）
+
+在你的项目根目录创建 `.cursor/project-config.md`，帮助 AI 定位文档路径：
+
+```markdown
+# 项目配置
+
+## 项目基本信息
+项目名称：[你的项目名]
+项目路径：[项目根目录路径]
+
+## 核心文档路径
+产品文档目录：[项目]/产品经理/
+技术架构目录：[项目]/技术架构师/
+测试文档目录：[项目]/3_开发计划/
+```
+
+### 5. 开始使用
+
+直接描述你的需求，AI 会自动识别任务类型并执行：
+
+```
+「做一个用户登录功能」
+→ AI 自动：产品设计 → 关卡A审核 → 技术架构 → 关卡B审核 → 开发 → 测试 → 上线
+
+「登录接口报 500 错误」
+→ AI 自动：issue 分类 → TDD 修复 → 回归验证 → 追踪台更新
+```
+
+### 选择性使用
+
+只需要部分 Skill 时，至少复制核心 Rules（否则路由不生效）：
 
 ```bash
-# 例：只使用产品开发角色
-cp -r tashan-cursor-skills/skills/role-产品经理 your-project/.cursor/skills/
-cp -r tashan-cursor-skills/skills/role-技术架构师 your-project/.cursor/skills/
-# ... 等
-
-# 必须同时复制核心 Rules（否则路由不生效）
+# 复制核心路由 Rules（必须）
 cp tashan-cursor-skills/rules/role-menu.mdc your-project/.cursor/rules/
 cp tashan-cursor-skills/rules/session-bootstrap.mdc your-project/.cursor/rules/
+
+# 复制你需要的 Skill
+cp -r tashan-cursor-skills/skills/role-产品经理 your-project/.cursor/skills/
+cp -r tashan-cursor-skills/skills/role-技术架构师 your-project/.cursor/skills/
+# ... 其他需要的 Skill
 ```
 
 ---
 
-## 修改和贡献
+## 代码结构
 
-新建或修改 Skill/Rule/Agent 前，必须先阅读：
-1. [设计原则](docs/Skill体系设计原则_v1.0.md)：什么场景用 Skill vs Rule vs Agent
-2. [skill-rule-修改规范](skills/skill-rule-修改规范/SKILL.md)：三问协议 + 版本留痕
-
-欢迎 PR，每个变更需要：
-- 说明根因（为什么需要这个改动）
-- 说明影响范围
-- 说明验证方法
+```
+tashan-cursor-skills/
+├── README.md                    # 中文说明（本文件）
+├── README.en.md                 # 英文说明
+├── CHANGELOG.md                 # 版本变更记录
+├── CONTRIBUTING.md              # 贡献指南
+├── LICENSE                      # MIT 许可证
+├── docs/
+│   ├── assets/
+│   │   └── tashan.svg           # 他山 Logo
+│   ├── overview.md              # 完整系统说明文档
+│   ├── Skill体系设计原则_v1.0.md # 设计哲学原文
+│   └── SYSTEM-BLUEPRINT.md     # 体系蓝图（来自历史对话分析）
+├── skills/                      # 95 个 Skill（每个含 SKILL.md）
+│   ├── role-产品开发协调者/     # 域协调者：识别任务类型，规划执行序列
+│   ├── role-产品经理/           # 产品定义 + 开发计划
+│   ├── role-技术架构师/         # 技术方案 + 接口规范
+│   ├── role-前端开发/           # React + TS + Vite 实现
+│   ├── role-后端开发/           # Python + FastAPI + PostgreSQL
+│   ├── role-AI工程师/           # Prompt 设计 + Agent 构建
+│   ├── role-测试工程师/         # 关卡 C：全量验证
+│   ├── role-DevOps/             # 部署 + 运维
+│   ├── role-审核者-用户模拟/    # 关卡 A：产品规格审核
+│   ├── role-审核者-系统破坏/    # 关卡 B：架构安全审核
+│   ├── bug-fix-loop-coordinator/ # Bug 修复闭环
+│   ├── issue-tracker/           # 问题分类追踪
+│   ├── project-backlog/         # 外部反馈统一 Inbox
+│   ├── expert-bootstrap/        # 按需培养领域专家 Agent
+│   ├── project-retrospective/   # 项目复盘 + Skill 进化
+│   ├── cognitive-*/             # 认知积累系列（碎片/整合/原则提炼等）
+│   ├── skill-index/             # 体系索引（SKILL-INDEX.md 等）
+│   └── ...（完整清单见 index/skill-index/SKILL-INDEX.md）
+├── rules/                       # 32 个 Rule（.mdc 文件，alwaysApply）
+│   ├── session-bootstrap.mdc    # ★ 核心：每次对话的执行协议（序列A+B）
+│   ├── role-menu.mdc            # ★ 核心：所有角色的触发词路由表
+│   ├── comprehensive-change-guard.mdc  # 多层变更强制按序执行
+│   ├── bug-fix-tdd-guard.mdc   # Bug 修复强制 TDD
+│   ├── test-coverage-guard.mdc # 测试完成对账主文档
+│   ├── document-lifecycle-guard.mdc    # 文档版本管理
+│   ├── product-alignment-guard.mdc     # 修复必须符合产品意图
+│   ├── frontend-brand-guard.mdc        # 品牌规范守门
+│   └── ...（完整清单见 rules/ 目录）
+├── agents/                      # 18 个 SubAgent 定义
+│   ├── verifier.md              # 独立功能验证（只读）
+│   ├── fixer.md                 # TDD 修复执行者（可写）
+│   ├── arch-destroyer.md        # 架构破坏者审核（只读）
+│   ├── user-simulator.md        # 用户视角模拟（只读）
+│   ├── ai-evaluator.md          # AI 效果评测（只读）
+│   └── ...（完整清单见 agents/ 目录）
+└── index/
+    └── skill-index/
+        ├── SKILL-INDEX.md       # 所有 Skill 的完整索引（版本/状态/触发词）
+        └── SYSTEM-BLUEPRINT.md  # 体系设计蓝图
+```
 
 ---
 
-## 设计理念
+## 生态位置
 
-> 「Skill 体系的设计质量，由它能否自我进化来衡量。」— Skill体系设计原则 §一
+本项目是「他山」大项目生态的组成部分，提供 AI 辅助产品开发的执行规范层。
 
-这套体系不是工具集合，而是 AI 的行为规范结构。评判标准不是「有多少 Skill」，而是「AI 能否从执行中学习并自动更新规范」。
+```
+他山生态
+│
+├── Resonnet                    ← 多智能体认知协作后端
+│   └── tashan-openbrain        ← 认知分身应用（基于 Resonnet）
+│
+├── Tashan-TopicLab             ← 多专家圆桌讨论平台
+│
+├── tashan-cursor-skills ★     ← 本仓库：AI 执行规范体系（Skill/Rule/Agent）
+│   └── 为所有产品开发提供 AI 执行标准
+│
+└── world-axiom-framework       ← 人—智能体数字世界公理框架（理论基础）
+```
 
-详细设计理念见 [docs/overview.md](docs/overview.md)。
+### 相关仓库
+
+| 仓库 | 定位 | 链接 |
+|------|------|------|
+| Resonnet | 多智能体认知协作后端 | [TashanGKD/Resonnet](https://github.com/TashanGKD/Resonnet) |
+| Tashan-TopicLab | 多专家圆桌讨论平台 | [TashanGKD/Tashan-TopicLab](https://github.com/TashanGKD/Tashan-TopicLab) |
+| world-axiom-framework | 数字世界公理框架 | [TashanGKD/world-axiom-framework](https://github.com/TashanGKD/world-axiom-framework) |
+| tashan-cursor-skills | 本仓库（AI 执行规范体系）| 当前页面 |
 
 ---
 
-## 关于他山
+## 贡献
 
-他山 AI 是一个「AI + 认知协作」产品，致力于让用户的认知可以外化、传播、进化。
-- 产品：[tashan.chat](https://tashan.chat)
-- GitHub：[TashanGKD](https://github.com/TashanGKD)
+欢迎贡献！详见 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+- **新增 Skill**：遵循 [Skill 设计原则](docs/Skill体系设计原则_v1.0.md)，并在 `index/skill-index/SKILL-INDEX.md` 注册
+- **修改 Skill/Rule/Agent**：必须先阅读 `skills/skill-rule-修改规范/SKILL.md`，执行三问协议（根因/影响/验证）
+- **文档贡献**：欢迎改进 README 或补充 `docs/`
 
 ---
 
-## License
+## 更新日志
 
-MIT License — 自由使用，保留署名即可。
+版本变更见 [CHANGELOG.md](CHANGELOG.md)。
+
+---
+
+## 许可证
+
+MIT License. See [LICENSE](LICENSE) for details.
