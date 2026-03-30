@@ -41,26 +41,18 @@
 Harness 是包裹在模型外层的运行时治理层，它决定：该调用什么工具、该验证什么输出、该记住什么上下文、该在什么条件下停止。没有 harness，模型只是一匹强壮但方向不定的马；有了 harness，马力才能转化为可靠、可控、可预期的工作。
 
 <p align="center">
-  <img src="docs/assets/harness-concept.svg" alt="Harness 概念图" width="900"/>
+  <img src="docs/assets/harness-architecture.png" alt="Harness 架构图" width="900"/>
 </p>
 
 ---
 
-## 我们的 Harness 有什么不同
+## 这套 Harness 是如何构建的
 
-大多数 harness 是**静态基础设施**——你配置它，它按配置执行，失败了你手动调整。
+这套体系围绕一个核心机制构建：**执行中涌现的经验，自动更新 Harness 本身。**
 
-这套体系在此基础上引入了一个根本性的机制：**Harness 本身从每次执行中学习，并自动更新自身。**
+每次任务完成后，`session-bootstrap` Rule 强制执行 D5 信号感知：踩坑变成 Skill 步骤警告，洞见变成认知碎片，流程空白变成待建的新 Skill。三层结构同步更新，下一次执行就是在更完善的 Harness 上运行。
 
-| 维度 | 普通 Harness | 他山体系 |
-|---|---|---|
-| 规范来源 | 人工预设，静态配置 | 从任务执行中涌现，信号自动路由 |
-| 失败处理 | 记录日志，人工分析 | 信号 → 立即追加到 Skill 步骤 |
-| 知识层 | 无（只管执行） | L1/L2/L1.5 三层认知结构 |
-| 进化机制 | 无 | 每次任务 → 至少一条改进 |
-| 竞争属性 | 可被复制的基础设施 | 随使用时长增长的护城河 |
-
-**核心论断**：普通 harness 治理执行；这套 harness 从执行中学习。每次踩坑变成规范更新，每个洞见变成认知积累，每个流程空白变成新 Skill 诞生。Harness 本身在复利增长，这是别人无法复制的护城河。
+Harness 由三层构成，六条通路把它们连接成自我进化的整体：
 
 ---
 
@@ -69,7 +61,7 @@ Harness 是包裹在模型外层的运行时治理层，它决定：该调用什
 整套体系由三个相互连接的闭环构成，六条通路让它们形成自我进化的整体：
 
 <p align="center">
-  <img src="docs/assets/three-loop-arch.svg" alt="三大闭环架构图" width="960"/>
+  <img src="docs/assets/three-loop-pathways.png" alt="三大闭环架构图" width="900"/>
 </p>
 
 **六条通路说明：**
@@ -90,7 +82,7 @@ Harness 是包裹在模型外层的运行时治理层，它决定：该调用什
 每次任务完成后，`session-bootstrap` Rule 强制执行 D5 信号感知，将执行结果路由到对应的更新通道：
 
 <p align="center">
-  <img src="docs/assets/signal-flywheel.svg" alt="自我进化飞轮图" width="960"/>
+  <img src="docs/assets/signal-flywheel.png" alt="自我进化飞轮图" width="900"/>
 </p>
 
 **五类信号及其处置：**
@@ -138,6 +130,10 @@ role-产品经理 Step D0：
   E信号（缺口）→ PENDING-SKILLS → skill-designer 建新 Skill
 ```
 
+<p align="center">
+  <img src="docs/assets/scenario1-new-feature.png" alt="场景一：新功能开发完整闭环" width="900"/>
+</p>
+
 **这个场景的闭环价值**：第1次做功能时踩坑的 Redis 用法，自动变成了第2次的「架构师最佳实践」，不需要人工记录和传递。
 
 ---
@@ -176,6 +172,10 @@ bug-fix-loop-coordinator 读追踪台 → dispatch fixer
   G信号（结构性根因）→ PENDING-PROPOSALS [人工确认] → 研发规范.md 更新
                      → [通路E] 通知依赖此规范的 Skill 重新对齐
 ```
+
+<p align="center">
+  <img src="docs/assets/scenario2-bug-fix.png" alt="场景二：Bug修复TDD完整闭环" width="900"/>
+</p>
 
 **这个场景的闭环价值**：同类 Bug 的第3次出现变成了架构规范的一部分，第4次在设计阶段就被拦截。
 
@@ -220,6 +220,10 @@ PENDING-SKILLS 追加 → project-retrospective 处理 → D0-B 更新
   读取更新后的 D0-B → 「确认是否已设计约定重注入机制」
   → 更完整的 Prompt 设计，减少长对话质量下降
 ```
+
+<p align="center">
+  <img src="docs/assets/scenario3-cognitive.png" alt="场景三：认知洞见积累完整闭环" width="900"/>
+</p>
 
 **这个场景的闭环价值**：一次实践踩坑 → L2碎片 → L1整合 → L1.5原则 → Skill D0-B → 下次任务自动带着这个认知，形成「越用越聪明」的飞轮。
 
@@ -366,28 +370,9 @@ G信号（结构性根因）────────→ PENDING-PROPOSALS [HUMAN
   输出：可复用的领域专家 B-object（Agent定义文件）
 ```
 
-### 自循环完整图景
-
-```
-实际任务执行
-    │
-    ▼ D5信号
-  A/E信号 ─────→ PENDING-SKILLS ──→ [skill-designer] ──→ 新 Skill
-  B信号   ─────→ [skill-system-health-check] ──→ [skill-domain-self-optimizer]
-  G信号   ─────→ PENDING-PROPOSALS ──→ 人工确认 ──→ 规范更新
-  D信号   ─────→ L2碎片 ──→ L1整合 ──→ [通路E] ──→ Skill D0-B更新
-    │
-    ▼ 批量处理
-[project-retrospective]
-    │
-    ▼
-[skill-updater] × N ──→ Skill 版本更新
-    │
-    ▼ 通路C
-下次任务 ──→ 读取更新后的 Skill ──→ 更好的执行
-    │
-    └──────────── 飞轮 ──────────────────────────────────────┘
-```
+<p align="center">
+  <img src="docs/assets/skill-self-loop.png" alt="Skill体系自循环进化图" width="900"/>
+</p>
 
 ---
 
@@ -771,10 +756,14 @@ tashan-cursor-skills/
 ├── CONTRIBUTING.md                # 贡献指南
 ├── docs/
 │   ├── assets/
-│   │   ├── tashan.svg             # 他山 Logo
-│   │   ├── harness-concept.svg    # Harness 概念图
-│   │   ├── three-loop-arch.svg    # 三大闭环架构图
-│   │   └── signal-flywheel.svg    # 自我进化飞轮图
+│   │   ├── tashan.svg                  # 他山 Logo
+│   │   ├── harness-architecture.png    # Harness 架构全景图
+│   │   ├── three-loop-pathways.png     # 三大闭环与六条通路
+│   │   ├── signal-flywheel.png         # 自我进化飞轮图
+│   │   ├── scenario1-new-feature.png   # 场景：新功能开发闭环
+│   │   ├── scenario2-bug-fix.png       # 场景：Bug修复TDD闭环
+│   │   ├── scenario3-cognitive.png     # 场景：认知洞见积累闭环
+│   │   └── skill-self-loop.png         # Skill体系自循环图
 │   ├── overview.md                # 完整系统说明
 │   └── Skill体系设计原则_v1.0.md  # 设计哲学
 ├── skills/                        # 95 个 Skills
