@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420" font-family="'Segoe UI', 'PingFang SC', 'Noto Sans SC', sans-serif">
+  <!-- Background -->
+  <rect width="900" height="420" fill="#0f0f0f" rx="16"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="600" letter-spacing="1">ÀH/ Agent Harness</text>
+  <text x="450" y="58" text-anchor="middle" fill="#666" font-size="11">!‹/l›Ww/¹ · The model is commodity. The harness is moat.</text>
+
+  <!-- LEFT: Raw LLM -->
+  <rect x="40" y="80" width="220" height="300" rx="12" fill="#1a1a1a" stroke="#333" stroke-width="1.5"/>
+  <text x="150" y="108" text-anchor="middle" fill="#888" font-size="11" letter-spacing="2">WITHOUT HARNESS</text>
+  <text x="150" y="140" text-anchor="middle" fill="#ffffff" font-size="28">=</text>
+  <text x="150" y="168" text-anchor="middle" fill="#e5e5e5" font-size="13" font-weight="600">ø!‹</text>
+  <text x="150" y="188" text-anchor="middle" fill="#666" font-size="10">Raw LLM</text>
+
+  <line x1="70" y1="210" x2="230" y2="210" stroke="#333" stroke-width="1"/>
+
+  <text x="150" y="232" text-anchor="middle" fill="#ef4444" font-size="11">  à
+‡¹L</text>
+  <text x="150" y="252" text-anchor="middle" fill="#ef4444" font-size="11">  àåw»</text>
+  <text x="150" y="272" text-anchor="middle" fill="#ef4444" font-size="11">  àŒÁª¯</text>
+  <text x="150" y="292" text-anchor="middle" fill="#ef4444" font-size="11">  à¶°Æ</text>
+  <text x="150" y="312" text-anchor="middle" fill="#ef4444" font-size="11">  Îïf`</text>
+  <text x="150" y="340" text-anchor="middle" fill="#555" font-size="10">ý›³¹š</text>
+  <text x="150" y="356" text-anchor="middle" fill="#555" font-size="10">:ïL§3</text>
+
+  <!-- ARROW -->
+  <text x="290" y="225" text-anchor="middle" fill="#555" font-size="28">+</text>
+  <rect x="268" y="248" width="44" height="22" rx="11" fill="#1a1a2e" stroke="#3b82f6" stroke-width="1"/>
+  <text x="290" y="263" text-anchor="middle" fill="#3b82f6" font-size="10" font-weight="600">HARNESS</text>
+  <text x="290" y="290" text-anchor="middle" fill="#555" font-size="22">=</text>
+
+  <!-- RIGHT: With Harness -->
+  <rect x="340" y="80" width="520" height="300" rx="12" fill="#0a1628" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="600" y="108" text-anchor="middle" fill="#3b82f6" font-size="11" letter-spacing="2">WITH HARNESS</text>
+  <text x="600" y="136" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="600">ï`„zýSgLûß</text>
+
+  <line x1="360" y1="150" x2="840" y2="150" stroke="#1e3a5f" stroke-width="1"/>
+
+  <!-- Six harness components in 2x3 grid -->
+  <!-- Row 1 -->
+  <rect x="360" y="162" width="148" height="54" rx="8" fill="#0d1f38" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="434" y="184" text-anchor="middle" fill="#60a5fa" font-size="18">=Â</text>
+  <text x="434" y="202" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">
+‡¡</text>
+  <text x="434" y="214" text-anchor="middle" fill="#4b6ea8" font-size="9">Context Management</text>
+
+  <rect x="526" y="162" width="148" height="54" rx="8" fill="#0d1f38" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="600" y="184" text-anchor="middle" fill="#60a5fa" font-size="18">='</text>
+  <text x="600" y="202" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">åw’</text>
+  <text x="600" y="214" text-anchor="middle" fill="#4b6ea8" font-size="9">Tool Orchestration</text>
+
+  <rect x="692" y="162" width="148" height="54" rx="8" fill="#0d1f38" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="766" y="184" text-anchor="middle" fill="#60a5fa" font-size="18"></text>
+  <text x="766" y="202" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">ŒÁª¯</text>
+  <text x="766" y="214" text-anchor="middle" fill="#4b6ea8" font-size="9">Verification Loops</text>
+
+  <!-- Row 2 -->
+  <rect x="360" y="228" width="148" height="54" rx="8" fill="#0d1f38" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="434" y="250" text-anchor="middle" fill="#60a5fa" font-size="18">>à</text>
+  <text x="434" y="268" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">°Æ¶</text>
+  <text x="434" y="280" text-anchor="middle" fill="#4b6ea8" font-size="9">Memory &amp; State</text>
+
+  <rect x="526" y="228" width="148" height="54" rx="8" fill="#0d1f38" stroke="#1e3a5f" stroke-width="1"/>
+  <text x="600" y="250" text-anchor="middle" fill="#60a5fa" font-size="18">=á</text>
+  <text x="600" y="268" text-anchor="middle" fill="#93c5fd" font-size="10" font-weight="600">‰h»</text>
+  <text x="600" y="280" text-anchor="middle" fill="#4b6ea8" font-size="9">Safety &amp; Governance</text>
+
+  <rect x="692" y="228" width="148" height="54" rx="8" fill="#1a0a28" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="766" y="250" text-anchor="middle" fill="#a78bfa" font-size="18">=</text>
+  <text x="766" y="268" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="600">êÛ</text>
+  <text x="766" y="280" text-anchor="middle" fill="#6d4a9e" font-size="9">Self-Evolution  ì	</text>
+
+  <!-- Bottom result bar -->
+  <rect x="360" y="296" width="480" height="68" rx="8" fill="#0d2218" stroke="#16a34a" stroke-width="1"/>
+  <text x="600" y="322" text-anchor="middle" fill="#4ade80" font-size="12" font-weight="600"> §ï`     ,ï§     Š(Š:</text>
+  <text x="600" y="342" text-anchor="middle" fill="#166534" font-size="10">û¡gL ’ á÷UI ’ Äô° ’ !ô}</text>
+  <text x="600" y="358" text-anchor="middle" fill="#166534" font-size="10">Ï!û¡ý(9Û Harness ,«vÖ Harness Z0	</text>
+</svg>

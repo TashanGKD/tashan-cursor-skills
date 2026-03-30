@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 500" width="960" height="500" font-family="'Segoe UI', 'PingFang SC', 'Noto Sans SC', sans-serif">
+  <!-- Background -->
+  <rect width="960" height="500" fill="#08080a" rx="16"/>
+
+  <!-- Title -->
+  <text x="480" y="36" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700" letter-spacing="1">êÛÞn  ·  Self-Evolution Flywheel</text>
+  <text x="480" y="56" text-anchor="middle" fill="#555" font-size="11">Ï!û¡Œ ’ á÷ê¨ï1 ’ Harness ô° ’ !gLôï`</text>
+
+  <!-- ===== CENTER: Task Execution ===== -->
+  <circle cx="480" cy="270" r="72" fill="#111" stroke="#444" stroke-width="2"/>
+  <circle cx="480" cy="270" r="62" fill="#0a0a0a" stroke="#333" stroke-width="1"/>
+  <text x="480" y="258" text-anchor="middle" fill="#888" font-size="11">Ï!</text>
+  <text x="480" y="275" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">û¡gL</text>
+  <text x="480" y="293" text-anchor="middle" fill="#888" font-size="10">Task Execution</text>
+  <text x="480" y="310" text-anchor="middle" fill="#555" font-size="9">’ D5 á÷å</text>
+
+  <!-- ===== SIGNAL NODES ===== -->
+  <!-- Signal A: Top Left - Pitfall -->
+  <circle cx="205" cy="140" r="52" fill="#1a0a00" stroke="#ea580c" stroke-width="2"/>
+  <text x="205" y="122" text-anchor="middle" fill="#fb923c" font-size="20">>¤</text>
+  <text x="205" y="142" text-anchor="middle" fill="#fb923c" font-size="13" font-weight="700">A á÷</text>
+  <text x="205" y="158" text-anchor="middle" fill="#9a3412" font-size="10">)Q / 1%</text>
+  <text x="205" y="171" text-anchor="middle" fill="#7c2d12" font-size="9">Pitfall</text>
+
+  <!-- Signal B: Top - Unexpected Behavior -->
+  <circle cx="480" cy="88" r="52" fill="#0a001a" stroke="#9333ea" stroke-width="2"/>
+  <text x="480" y="70" text-anchor="middle" fill="#c084fc" font-size="20"> </text>
+  <text x="480" y="90" text-anchor="middle" fill="#c084fc" font-size="13" font-weight="700">B á÷</text>
+  <text x="480" y="106" text-anchor="middle" fill="#6b21a8" font-size="10">SkillL:</text>
+  <text x="480" y="119" text-anchor="middle" fill="#581c87" font-size="9">Unexpected</text>
+
+  <!-- Signal D: Top Right - Insight -->
+  <circle cx="755" cy="140" r="52" fill="#001a0a" stroke="#16a34a" stroke-width="2"/>
+  <text x="755" y="122" text-anchor="middle" fill="#4ade80" font-size="20">=¡</text>
+  <text x="755" y="142" text-anchor="middle" fill="#4ade80" font-size="13" font-weight="700">D á÷</text>
+  <text x="755" y="158" text-anchor="middle" fill="#166534" font-size="10">Á / °Ñ°</text>
+  <text x="755" y="171" text-anchor="middle" fill="#14532d" font-size="9">Insight</text>
+
+  <!-- Signal E: Bottom Right - Gap -->
+  <circle cx="755" cy="400" r="52" fill="#001428" stroke="#0ea5e9" stroke-width="2"/>
+  <text x="755" y="382" text-anchor="middle" fill="#38bdf8" font-size="20">=s</text>
+  <text x="755" y="402" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">E á÷</text>
+  <text x="755" y="418" text-anchor="middle" fill="#075985" font-size="10">A:ã</text>
+  <text x="755" y="431" text-anchor="middle" fill="#0c4a6e" font-size="9">Gap Found</text>
+
+  <!-- Signal G: Bottom Left - Root Cause -->
+  <circle cx="205" cy="400" r="52" fill="#1a001a" stroke="#ec4899" stroke-width="2"/>
+  <text x="205" y="382" text-anchor="middle" fill="#f472b6" font-size="20">=</text>
+  <text x="205" y="402" text-anchor="middle" fill="#f472b6" font-size="13" font-weight="700">G á÷</text>
+  <text x="205" y="418" text-anchor="middle" fill="#9d174d" font-size="10">Ó„'9à</text>
+  <text x="205" y="431" text-anchor="middle" fill="#831843" font-size="9">Root Cause</text>
+
+  <!-- ===== ARROWS: Center to Signals ===== -->
+  <defs>
+    <marker id="arrOrange" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#ea580c"/>
+    </marker>
+    <marker id="arrPurple" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#9333ea"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#16a34a"/>
+    </marker>
+    <marker id="arrBlue" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#0ea5e9"/>
+    </marker>
+    <marker id="arrPink" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#ec4899"/>
+    </marker>
+  </defs>
+
+  <!-- Center ’ A (top-left) -->
+  <line x1="433" y1="232" x2="255" y2="174" stroke="#ea580c" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrOrange)"/>
+  <!-- Center ’ B (top) -->
+  <line x1="480" y1="198" x2="480" y2="142" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrPurple)"/>
+  <!-- Center ’ D (top-right) -->
+  <line x1="527" y1="232" x2="705" y2="174" stroke="#16a34a" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrGreen)"/>
+  <!-- Center ’ E (bottom-right) -->
+  <line x1="527" y1="308" x2="705" y2="362" stroke="#0ea5e9" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrBlue)"/>
+  <!-- Center ’ G (bottom-left) -->
+  <line x1="433" y1="308" x2="255" y2="362" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrPink)"/>
+
+  <!-- ===== RESULT BOXES (outside signals, showing what happens) ===== -->
+
+  <!-- A ’ Skill e¤ô° -->
+  <rect x="30" y="74" width="130" height="52" rx="8" fill="#111" stroke="#ea580c" stroke-width="1"/>
+  <text x="95" y="94" text-anchor="middle" fill="#fb923c" font-size="10" font-weight="600">’ Skill e¤ô°</text>
+  <text x="95" y="108" text-anchor="middle" fill="#7c2d12" font-size="9">Ësý )QfJ</text>
+  <text x="95" y="120" text-anchor="middle" fill="#7c2d12" font-size="9">!{û¡ê¨Ä</text>
+  <line x1="153" y1="100" x2="158" y2="100" stroke="#ea580c" stroke-width="1"/>
+  <line x1="158" y1="100" x2="158" y2="140" stroke="#ea580c" stroke-width="1"/>
+  <line x1="158" y1="140" x2="165" y2="140" stroke="#ea580c" stroke-width="1"/>
+
+  <!-- B ’ PENDING-SKILLS -->
+  <rect x="355" y="10" width="250" height="36" rx="8" fill="#111" stroke="#9333ea" stroke-width="1"/>
+  <text x="480" y="24" text-anchor="middle" fill="#c084fc" font-size="10" font-weight="600">’ PENDING-SKILLS °UI… skill-designer °ú</text>
+  <text x="480" y="38" text-anchor="middle" fill="#581c87" font-size="9">skill-system-health-check </text>
+
+  <!-- D ’ L2 ŽG ’ L1 t -->
+  <rect x="800" y="74" width="148" height="66" rx="8" fill="#111" stroke="#16a34a" stroke-width="1"/>
+  <text x="874" y="92" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="600">’ L2 ¤åŽG</text>
+  <text x="874" y="106" text-anchor="middle" fill="#166534" font-size="9">cognitive-capture-fragment</text>
+  <text x="874" y="120" text-anchor="middle" fill="#4ade80" font-size="10" font-weight="600">’ L1 ‡ct</text>
+  <text x="874" y="134" text-anchor="middle" fill="#166534" font-size="9">cognitive-integrate-fragments</text>
+
+  <!-- E ’ ° Skill Þ -->
+  <rect x="800" y="366" width="148" height="52" rx="8" fill="#111" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="874" y="386" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">’ ° Skill Þ</text>
+  <text x="874" y="400" text-anchor="middle" fill="#075985" font-size="9">skill-designer ú° Skill</text>
+  <text x="874" y="413" text-anchor="middle" fill="#075985" font-size="9">ïC !ê¨(</text>
+
+  <!-- G ’ ºån¤ ’ Äô° -->
+  <rect x="30" y="366" width="130" height="52" rx="8" fill="#111" stroke="#ec4899" stroke-width="1"/>
+  <text x="95" y="383" text-anchor="middle" fill="#f472b6" font-size="10" font-weight="600">’ PENDING ºån¤</text>
+  <text x="95" y="397" text-anchor="middle" fill="#9d174d" font-size="9">§Á/ÄB¨º</text>
+  <text x="95" y="410" text-anchor="middle" fill="#9d174d" font-size="9">ÑÄ.md ô°</text>
+
+  <!-- Bottom flywheel summary -->
+  <rect x="280" y="460" width="400" height="28" rx="14" fill="#111827" stroke="#374151" stroke-width="1"/>
+  <text x="480" y="479" text-anchor="middle" fill="#9ca3af" font-size="11">ÞnH”Ï!û¡ ’ ó a9Û ’ Harness )ž</text>
+</svg>
