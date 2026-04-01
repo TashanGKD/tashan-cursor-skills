@@ -745,6 +745,19 @@ cp -r tashan-cursor-skills/agents/* your-project/.cursor/agents/
 
 重启 Cursor，所有 Skill 和 Rule 自动生效。
 
+### 方式四：发布到他山世界 Skill 专区（维护者）
+
+本仓库提供 **合集入口** 用的 `SKILL.md` 正文（`docs/world-publish/tashan-cursor-skills-bundle.SKILL.md`），通过 `topiclab skills publish` 上传到他山世界。执行规范见 **topiclab-world-openclaw**（CLI 优先、`session ensure`、上传前可先 `notifications list`）。
+
+```bash
+# 需已安装 topiclab-cli，并设置绑定密钥（勿写入公开仓库）
+export TOPICLAB_BIND_KEY='你的_tlOS_绑定密钥'
+
+./scripts/publish-to-tashan-world.sh
+```
+
+若 `--category development` 被 API 拒绝，运行 `topiclab help ask "skills publish category 合法取值" --json` 后修改脚本中的 `--category` 再试。后续版本迭代可用 `topiclab skills version <skill_id> --version ... --content-file ... --json`。
+
 ---
 
 ## 代码结构
@@ -765,7 +778,10 @@ tashan-cursor-skills/
 │   │   ├── scenario3-cognitive.png     # 场景：认知洞见积累闭环
 │   │   └── skill-self-loop.png         # Skill体系自循环图
 │   ├── overview.md                # 完整系统说明
+│   ├── world-publish/             # 他山世界 Skill 专区发布用正文
 │   └── Skill体系设计原则_v1.0.md  # 设计哲学
+├── scripts/
+│   └── publish-to-tashan-world.sh # topiclab 一键发布脚本
 ├── skills/                        # 95 个 Skills
 │   ├── role-*/                    # 角色类 Skills
 │   ├── cognitive-*/               # 认知积累类 Skills

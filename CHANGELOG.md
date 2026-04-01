@@ -10,6 +10,11 @@
 ## [Unreleased]
 
 ### Added
+
+- 他山世界 Skill 专区发布物料：`docs/world-publish/tashan-cursor-skills-bundle.SKILL.md`（合集入口正文）
+- `scripts/publish-to-tashan-world.sh`：`topiclab skills publish` 一键脚本（需 `TOPICLAB_BIND_KEY`）
+- README「安装方式 · 方式四」：发布到他山世界的操作说明
+
 ### Changed
 ### Fixed
 
